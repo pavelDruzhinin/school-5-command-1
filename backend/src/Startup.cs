@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Services.ChatBot.API.Helpers;
+using Services.ChatBot.API.Data;
 using Serilog;
 
 namespace Services.ChatBot.API
@@ -34,7 +35,7 @@ namespace Services.ChatBot.API
             services.AddLogging();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            /* TODO: DB connection
+            //* TODO: DB connection
             // Database settings
             services.Configure<DatabaseSettings>(Configuration.GetSection("DatabaseSettings"));
             
