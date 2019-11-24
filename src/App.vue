@@ -12,10 +12,6 @@
     <v-content>
       <HelloWorld/>
     </v-content>
-    
-    <test/>
-    <test2/>
-    <test3/>
 
   <Footer/>
   </v-app>
@@ -23,9 +19,6 @@
 
 <script>
 import HelloWorld from './components/HelloWorld';
-import test from './components/test';
-import test2 from './components/test2';
-import test3 from './components/test3';
 import Footer from "./components/Footer";
 
 export default {
@@ -33,10 +26,7 @@ export default {
 
   components: {
     Footer,
-    HelloWorld,
-    test,
-    test2,
-    test3,
+    HelloWorld
   },
 
   data: () => ({
