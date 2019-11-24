@@ -40,17 +40,20 @@
     <v-content>
       <HelloWorld/>
     </v-content>
+    <AdminEditor/>
   </v-app>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld';
+import AdminEditor from './components/AdminEditor';
 
 export default {
   name: 'App',
 
   components: {
     HelloWorld,
+    AdminEditor
   },
 
   data: () => ({
