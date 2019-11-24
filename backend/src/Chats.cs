@@ -7,5 +7,10 @@ namespace chatbot
 {
     public class Chats
     {
+        int Id { get; set; }
+        int IdAuthor { get; set; }
+        string ChatName { get; set; }
+        DateTime DateAdd { get; set; }
+        bool Anon { get; set; }
     }
 }

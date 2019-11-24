@@ -12,6 +12,9 @@ namespace chatbot
         {
 
         }
-        public DbSet<Answers> Users { get; set; }
+        public DbSet<Answers> Answers { get; set; }
+        public DbSet<Questions> Questions { get; set; }
+        public DbSet<Chats> Chats { get; set; }
+
     }
 }
