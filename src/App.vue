@@ -40,17 +40,26 @@
     <v-content>
       <HelloWorld/>
     </v-content>
+    <test/>
+    <test2/>
+    <test3/>
   </v-app>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld';
+import test from './components/test';
+import test2 from './components/test2';
+import test3 from './components/test3';
 
 export default {
   name: 'App',
 
   components: {
     HelloWorld,
+    test,
+    test2,
+    test3,
   },
 
   data: () => ({
