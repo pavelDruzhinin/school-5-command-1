@@ -8,6 +8,9 @@
       <v-spacer></v-spacer>
       <span class="mr-2"><login-form></login-form></span>
     </v-app-bar>
+    <v-content>
+  <Admin/>
+  </v-content>
 
     <v-content>
       <HelloWorld/>
@@ -28,7 +31,6 @@ export default {
   components: {
     Footer,
     HelloWorld,
-    AdminEditor
   },
 
   data: () => ({
