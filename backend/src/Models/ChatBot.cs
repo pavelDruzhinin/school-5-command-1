@@ -14,5 +14,7 @@ namespace Services.ChatBot.API.Models
         public IEnumerable<Question> Questions { get; set; } // navigation property
 
         public string Url { get; set; }  // Special url like '/chat/1a2bc34d'
+
+        public bool Anon { get; set; } //Можно ли юзать чат анонимным пользователям
     }
 }

@@ -23,6 +23,6 @@ namespace Services.ChatBot.API.Models
 
         public DateTime DateAdded { get; set; }
         
-        public bool Anon { get; set; }
+        
     }
 }
