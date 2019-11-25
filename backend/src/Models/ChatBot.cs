@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Services.ChatBot.API.Models
+namespace App.chatbot.API.Models
 {
     public class ChatBot
     {
@@ -15,6 +15,6 @@ namespace Services.ChatBot.API.Models
 
         public string Url { get; set; }  // Special url like '/chat/1a2bc34d'
 
-        public bool Anon { get; set; }  // Если тру, тогда разрешить проходить опрос анонимно
+        public bool Anon { get; set; }  // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     }
 }

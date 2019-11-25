@@ -4,9 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Services.ChatBot.API.Models
+namespace App.chatbot.API.Models
 {
-
+    // Ответ пользователя на бота
+    // Соединяет пользователя и бота, даёт список ответов-стрингов
+    // Может быть анонимным либо нет (AuthorId = null)
     public class Answer
     {
         public int Id { get; set; }
@@ -19,7 +21,5 @@ namespace Services.ChatBot.API.Models
         public IEnumerable<string> Answers { get; set; }
 
         public DateTime DateAdded { get; set; }
-        
-        
     }
 }

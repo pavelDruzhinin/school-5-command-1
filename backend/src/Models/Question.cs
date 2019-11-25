@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Services.ChatBot.API.Models
+namespace App.chatbot.API.Models
 {
     // Вопрос состоит из самого вопроса, и возможных ответов к нему
     // Ответы - строка разделённая ";"

@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Services.ChatBot.API.Helpers
+namespace App.chatbot.API.Helpers
 {
     public interface ITokenManager
     {

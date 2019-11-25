@@ -14,11 +14,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
-using Services.ChatBot.API.Helpers;
-using Services.ChatBot.API.Data;
+using App.chatbot.API.Helpers;
+using App.chatbot.API.Data;
 using Serilog;
 
-namespace Services.ChatBot.API
+namespace App.chatbot.API
 {
     public class Startup
     {

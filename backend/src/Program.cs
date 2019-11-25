@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.AspNetCore;
 
-namespace Services.ChatBot.API
+namespace App.chatbot.API
 {
     public class Program
     {

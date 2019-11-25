@@ -1,4 +1,4 @@
-namespace Services.ChatBot.API.Helpers
+namespace App.chatbot.API.Helpers
 {
     // TODO: generalise this mess
     public class DatabaseSettings : IDatabaseSettings
