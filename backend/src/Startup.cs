@@ -32,19 +32,15 @@ namespace Services.ChatBot.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddLogging();
+            // services.AddLogging();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             //* TODO: DB connection
             // Database settings
             services.Configure<DatabaseSettings>(Configuration.GetSection("DatabaseSettings"));
-            
             services.AddSingleton<IDatabaseSettings, DatabaseSettings>();
-            var databaseSettings = Configuration.GetSection("DatabaseSettings").Get<DatabaseSettings>();
-            Log.Information("Initializing with database settings {@Settings}", databaseSettings);
-            // services.AddSingleton<MongoRepository>();
-            services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(databaseSettings.ConnectionString));
+
+            services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>();
             //*/
 
             /* TODO: Authentication
@@ -80,7 +76,7 @@ namespace Services.ChatBot.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddSerilog();
+            // loggerFactory.AddSerilog();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

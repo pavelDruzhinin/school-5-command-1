@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Serilog.AspNetCore;
 
 namespace Services.ChatBot.API
 {
@@ -28,9 +29,13 @@ namespace Services.ChatBot.API
                     .ReadFrom.Configuration(hostingContext.Configuration)
                     .Enrich.WithProperty("ApplicationContext", AppName)
                     .Enrich.FromLogContext()
+                    .Enrich.WithCorrelationId()
                     .WriteTo.Debug()
                     .WriteTo.Console(
-                        outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}")
+                        outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}",
+                        restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Verbose
+                    ),
+                    writeToProviders: true
                 );
     }
 }

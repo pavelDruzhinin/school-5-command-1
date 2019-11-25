@@ -47,9 +47,8 @@ namespace Services.ChatBot.API.Helpers
         public string Port {
             get { 
                 if(string.IsNullOrEmpty(_Port))
-                    return "Port=5432;";
-                else
-                    return $"Port={_Port};";
+                    _Port = "5432";
+                return $"Port={_Port};";
             }
             set { _Port = value; }
         }
@@ -66,5 +65,6 @@ namespace Services.ChatBot.API.Helpers
         string Username { get; set; }
         string Password { get; set; }
         string Port { get; set; }
+        string ConnectionString { get; }
     }
 }
