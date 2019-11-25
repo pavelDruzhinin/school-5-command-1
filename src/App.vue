@@ -28,11 +28,7 @@
       </router-view>
     </v-content>
 
-<<<<<<< HEAD
-  <Footer/>
-=======
     <Footer />
->>>>>>> e02561b0edce007e22ede150eb7f50b927b0815b
   </v-app>
 </template>
 
