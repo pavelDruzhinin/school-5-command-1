@@ -1,45 +1,136 @@
 <template>
-  <v-sheet height="500">
-    <v-calendar
-            type="month"
-            now="2019-01-08"
-            value="2019-01-08"
-            :events="events"
-    ></v-calendar>
-  </v-sheet>
+  <v-container>
+    <v-row>
+      <v-col cols="12" sm="4" md="4">
+        <v-layout
+                text-center
+                wrap
+        >
+
+          <v-flex mb-4>
+            <h1 class="display-2 font-weight-bold mb-3">
+              Welcome to POLLs
+            </h1>
+            <p class="subheading font-weight-regular">
+              Service to manage your polls in one place
+            </p>
+            <v-layout row class="text-xs-center"
+                      text-center
+                      wrap
+            >
+              <v-flex xs-2>
+                <v-card flat>
+                  <v-form>
+                    <v-col cols="12" sm="12" md="12">
+                      <v-text-field label="Username" required></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="12" md="12">
+                      <v-text-field label="Password" required></v-text-field>
+                    </v-col>
+                    <v-card-actions>
+                      <v-btn primary large block>Login</v-btn>
+                    </v-card-actions>
+                  </v-form>
+                </v-card>
+              </v-flex>
+            </v-layout>
+          </v-flex>
+        </v-layout>
+      </v-col>
+      <v-spacer></v-spacer>
+      <v-col cols="12" sm="8" md="8">
+        <v-timeline :dense="$vuetify.breakpoint.smAndDown">
+          <v-timeline-item
+                  color="purple lighten-2"
+                  fill-dot
+                  right
+          >
+            <v-card>
+              <v-card-title class="purple lighten-2">
+                <v-icon
+                        dark
+                        size="42"
+                        class="mr-4"
+                >
+                  mdi-account
+                </v-icon>
+                <h2 class="headline white--text font-weight-light">Sign UP</h2>
+              </v-card-title>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" md="12">
+                    Sign UP or login in polls
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card>
+          </v-timeline-item>
+
+          <v-timeline-item
+                  color="green lighten-1"
+                  fill-dot
+                  right
+          >
+            <v-card>
+              <v-card-title class="green lighten-1">
+                <v-icon
+                        dark
+                        size="42"
+                        class="mr-4"
+                >
+                  mdi-view-grid-plus-outline
+                </v-icon>
+                <h2 class="headline white--text font-weight-light">Add your subs</h2>
+              </v-card-title>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" md="12">
+                    Take polls from different companies
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card>
+          </v-timeline-item>
+
+          <v-timeline-item
+                  color="cyan lighten-1"
+                  fill-dot
+                  right
+          >
+            <v-card>
+              <v-card-title class="cyan lighten-1">
+                <v-icon
+                        class="mr-4"
+                        dark
+                        size="42"
+                >
+                  mdi-file-tree
+                </v-icon>
+                <h2 class="headline white--text font-weight-light">Manage</h2>
+              </v-card-title>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" md="12">
+                    Bla bla bla
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card>
+          </v-timeline-item>
+        </v-timeline>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
   export default {
-    data: () => ({
-      events: [
-        {
-          name: 'Vacation',
-          start: '2018-12-30',
-          end: '2019-01-02',
-        },
-        {
-          name: 'Meeting',
-          start: '2019-01-07',
-        },
-        {
-          name: '30th Birthday',
-          start: '2019-01-03',
-        },
-        {
-          name: 'New Year',
-          start: '2019-01-01',
-        },
-        {
-          name: 'Conference',
-          start: '2019-01-21',
-        },
-        {
-          name: 'Hackathon',
-          start: '2019-01-30',
-          end: '2019-02-01',
-        },
-      ],
-    }),
+    data: () => ({}),
   }
 </script>
+
+<style>
+  .v-application .mb-6 {
+    margin-bottom: 26px !important;
+  }
+</style>
