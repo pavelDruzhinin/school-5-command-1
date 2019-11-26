@@ -1,4 +1,4 @@
-namespace App.chatbot.API.Helpers
+namespace App.chatbot.API.Data
 {
     // TODO: generalise this mess
     public class DatabaseSettings : IDatabaseSettings
@@ -47,8 +47,9 @@ namespace App.chatbot.API.Helpers
         public string Port {
             get { 
                 if(string.IsNullOrEmpty(_Port))
-                    _Port = "5432";
-                return $"Port={_Port};";
+                    return "";
+                else
+                    return $"Port={_Port};";
             }
             set { _Port = value; }
         }

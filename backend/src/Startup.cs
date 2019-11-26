@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -13,8 +14,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
-using App.chatbot.API.Helpers;
+using App.chatbot.API.Authentication;
 using App.chatbot.API.Data;
 using Serilog;
 
@@ -35,21 +37,30 @@ namespace App.chatbot.API
             // services.AddLogging();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            //* TODO: DB connection
             // Database settings
-            services.Configure<DatabaseSettings>(Configuration.GetSection("DatabaseSettings"));
+            var dbSettings = Configuration.GetSection("DatabaseSettings").Get<DatabaseSettings>();
+            Log.Information("Initializing with database settings {@Settings}", dbSettings);
             services.AddSingleton<IDatabaseSettings, DatabaseSettings>();
+            services.Configure<DatabaseSettings>(options => options = dbSettings);
 
-            services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>();
-            //*/
+            services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options =>
+                options.UseNpgsql(dbSettings.ConnectionString)
+            );
 
-            /* TODO: Authentication
             // Authentication settings
-            services.Configure<TokenManager>(Configuration.GetSection("tokenManagement"));
-            services.AddSingleton<ITokenManager, TokenManager>(sp => 
-                sp.GetRequiredService<IOptions<TokenManager> >().Value);
-            var token = Configuration.GetSection("tokenManagement").Get<TokenManager>();
-            var secret = Encoding.ASCII.GetBytes(token.Secret);
+            // Get options from app settings
+            var token = Configuration.GetSection(nameof(JwtIssuerOptions)).Get<TokenManager>();
+            var _secretKey = Encoding.ASCII.GetBytes(token.Secret);
+            // var _secretKey = Encoding.ASCII.GetBytes(Configuration["Auth:SecretKey"]);
+
+            // Configure JwtIssuerOptions
+            services.AddSingleton<JwtIssuerOptions>();
+            services.Configure<JwtIssuerOptions>(options =>
+            {
+                options.Issuer = token.Issuer;
+                options.Audience = token.Audience;
+                options.SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(_secretKey), SecurityAlgorithms.HmacSha256);
+            });
 
             services.AddAuthentication(x =>
             {
@@ -58,19 +69,34 @@ namespace App.chatbot.API
             })
             .AddJwtBearer(x =>
             {
-                x.RequireHttpsMetadata = false;
+                x.RequireHttpsMetadata = true;
                 x.SaveToken = true;
+                x.ClaimsIssuer = token.Issuer;
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(secret),
+                    IssuerSigningKey = new SymmetricSecurityKey(_secretKey),
+                    ValidateIssuer = true,
                     ValidIssuer = token.Issuer,
-                    ValidAudience = token.Audience,
-                    ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateAudience = true,
+                    ValidAudience = token.Audience
                 };
             });
-            //*/
+
+            services.AddSingleton<IJwtFactory, JwtFactory>();
+
+            // add Identity
+            var builder = services.AddIdentityCore<ApplicationUser>(o =>
+            {
+                // configure identity options
+                o.Password.RequireDigit = false;
+                o.Password.RequireLowercase = false;
+                o.Password.RequireUppercase = false;
+                o.Password.RequireNonAlphanumeric = false;
+                o.Password.RequiredLength = 6;
+            });
+            builder = new IdentityBuilder(builder.UserType, typeof(ApplicationRole), builder.Services);
+            builder.AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -28,14 +28,14 @@ namespace App.chatbot.API
                 .UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
                     .ReadFrom.Configuration(hostingContext.Configuration)
                     .Enrich.WithProperty("ApplicationContext", AppName)
-                    .Enrich.FromLogContext()
-                    .Enrich.WithCorrelationId()
-                    .WriteTo.Debug()
-                    .WriteTo.Console(
-                        outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}",
-                        restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Verbose
-                    ),
-                    writeToProviders: true
+                    // .Enrich.FromLogContext()
+                    // .Enrich.WithCorrelationId()
+                    // .WriteTo.Debug()
+                    // .WriteTo.Console(
+                    //     outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}",
+                    //     restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Verbose
+                    // ),
+                    // writeToProviders: true
                 );
     }
 }
