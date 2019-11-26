@@ -8,17 +8,18 @@ namespace App.chatbot.API.Models
 {
     // Ответ пользователя на бота
     // Соединяет пользователя и бота, даёт список ответов-стрингов
-    // Может быть анонимным либо нет (AuthorId = null)
+    // Может быть анонимным либо нет (UserId = null)
     public class Answer
     {
         public int Id { get; set; }
 
-        public int? AuthorId { get; set; }
+        // [ForeignKey("UserId")]
+        // public GuestUser User { get; set; } // navigational property 
 
         [ForeignKey("BotId")]
         public ChatBot Bot { get; set; } // navigational property 
 
-        public IEnumerable<string> Answers { get; set; }
+        public List<string> Answers { get; set; }
 
         public DateTime DateAdded { get; set; }
     }

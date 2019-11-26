@@ -13,7 +13,6 @@ namespace App.chatbot.API.Models
     {
         public int Id { get; set; }
 
-        [ForeignKey("BotId")]
         public ChatBot Bot { get; set; } // navigational property
 
         public String Value { get; set; }

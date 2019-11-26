@@ -100,15 +100,11 @@ namespace chatbot.Data.Migrations
 
                     b.Property<List<string>>("Answers");
 
-                    b.Property<int?>("AuthorId");
-
                     b.Property<int?>("BotId");
 
                     b.Property<DateTime>("DateAdded");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
 
                     b.HasIndex("BotId");
 
@@ -119,8 +115,6 @@ namespace chatbot.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Anon");
 
                     b.Property<int?>("BotIds");
 
@@ -248,10 +242,6 @@ namespace chatbot.Data.Migrations
 
             modelBuilder.Entity("App.chatbot.API.Models.Answer", b =>
                 {
-                    b.HasOne("App.chatbot.API.Models.CreatorUser", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId");
-
                     b.HasOne("App.chatbot.API.Models.ChatBot", "Bot")
                         .WithMany()
                         .HasForeignKey("BotId");
@@ -259,7 +249,7 @@ namespace chatbot.Data.Migrations
 
             modelBuilder.Entity("App.chatbot.API.Models.ChatBot", b =>
                 {
-                    b.HasOne("App.chatbot.API.Models.CreatorUser")
+                    b.HasOne("App.chatbot.API.Models.CreatorUser", "Author")
                         .WithMany("Bots")
                         .HasForeignKey("BotIds");
                 });

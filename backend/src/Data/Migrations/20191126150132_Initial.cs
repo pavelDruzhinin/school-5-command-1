@@ -181,10 +181,9 @@ namespace chatbot.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    BotIds = table.Column<int>(nullable: true),
                     Name = table.Column<string>(nullable: true),
-                    Url = table.Column<string>(nullable: true),
-                    Anon = table.Column<bool>(nullable: false),
-                    BotIds = table.Column<int>(nullable: true)
+                    Url = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -203,7 +202,6 @@ namespace chatbot.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    AuthorId = table.Column<int>(nullable: true),
                     BotId = table.Column<int>(nullable: true),
                     Answers = table.Column<List<string>>(nullable: true),
                     DateAdded = table.Column<DateTime>(nullable: false)
@@ -211,12 +209,6 @@ namespace chatbot.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Answers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Answers_Creators_AuthorId",
-                        column: x => x.AuthorId,
-                        principalTable: "Creators",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Answers_Bots_BotId",
                         column: x => x.BotId,
@@ -244,11 +236,6 @@ namespace chatbot.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Answers_AuthorId",
-                table: "Answers",
-                column: "AuthorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_BotId",

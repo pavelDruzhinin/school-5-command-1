@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using App.chatbot.API.Authentication;
 using App.chatbot.API.Data;
+using App.chatbot.API.Services;
 using Serilog;
 
 namespace App.chatbot.API
@@ -97,6 +98,9 @@ namespace App.chatbot.API
             });
             builder = new IdentityBuilder(builder.UserType, typeof(ApplicationRole), builder.Services);
             builder.AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
+            services.AddScoped<ChatBotService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
