@@ -1,4 +1,6 @@
 <template>
+<v-container>
+  <v-row>
   <v-card
     class="ms-10 mt-10"
     max-width="500"
@@ -51,14 +53,15 @@
               <v-text-field
               clear-icon="mdi-close-circle"
               clearable
+              :rules="formIsValid"
               v-model="Quest"
               label="Question"
               type="text"
-              required
               @click:clear="clearMessage"
               ></v-text-field>
-              <v-btn class="mr-10" color="indigo"
-              @click="items.push(Quest)">Add</v-btn>
+              <v-btn
+               class="mr-10" color="indigo"
+              @click="submit()">Add</v-btn>
               <v-btn color="indigo" 
               @click="reset();dialog=false">Close</v-btn>
                 </v-form>      
@@ -81,9 +84,11 @@
           </v-list-item-content>
       </v-list-item>
     </v-list>
-  </v-card>
-  
 
+  </v-card>
+
+  </v-row>
+</v-container>
 </template>
 
 
@@ -95,9 +100,15 @@
         dialog: false,
         message:null,
         n:0,
-        items:[]
+        items:[],
+        formIsValid: [
+          (v) => !!v || 'Field is required'
+        ]
       }
     },
+  
+
+
 
     methods: {
     clearMessage () {
@@ -105,6 +116,12 @@
       },
     reset () {
         this.$refs.form.reset();
+    },
+    submit() {
+      if(this.$refs.form.validate()) {
+        this. items.push(this.Quest);
+        this.$refs.form.reset()
+      }
     }
     },
     }
