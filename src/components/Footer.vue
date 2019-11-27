@@ -17,11 +17,41 @@
             >
                 {{ link }}
             </v-btn>
+            <router-link to="/polls" style="text-decoration: none; color: white">
+            <v-btn
+                    color="white"
+                    text
+                    rounded
+                    class="my-2"
+            >
+                All polls
+            </v-btn>
+            </router-link>
+            <router-link to="/admin" style="text-decoration: none; color: white">
+            <v-btn
+                    color="white"
+                    text
+                    rounded
+                    class="my-2"
+            >
+                Dashboard
+            </v-btn>
+            </router-link>
+            <router-link to="/test" style="text-decoration: none; color: white">
+                <v-btn
+                        color="white"
+                        text
+                        rounded
+                        class="my-2"
+                >
+                    Test
+                </v-btn>
+            </router-link>
             <v-col
                     class="py-4 text-center white--text"
                     cols="12"
             >
-                {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
+                {{ new Date().getFullYear() }} — <strong>PollsApp</strong>
             </v-col>
         </v-row>
     </v-footer>
@@ -29,15 +59,6 @@
 
 <script>
     export default {
-        data: () => ({
-            links: [
-                'Home',
-                'About Us',
-                'Team',
-                'Services',
-                'Blog',
-                'Contact Us',
-            ],
-        }),
+        data: () => ({}),
     }
 </script>

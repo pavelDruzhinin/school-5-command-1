@@ -6,15 +6,6 @@
           <span>POLL</span>
         </router-link>
         <span class="font-weight-light">s </span>
-        <router-link to="/polls" style="text-decoration: none; color: white">
-          <span>polls </span>
-        </router-link>
-        <router-link to="/admin" style="text-decoration: none; color: white">
-          <span>admin </span>
-        </router-link>
-        <router-link to="/test" style="text-decoration: none; color: white">
-          <span>test </span>
-        </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
     </v-app-bar>
