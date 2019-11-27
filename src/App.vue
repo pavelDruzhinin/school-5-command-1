@@ -18,9 +18,6 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
     </v-app-bar>
-    <v-content>
-  <Admin/>
-  </v-content>
 
     <v-content>
       <router-view>
