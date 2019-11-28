@@ -10,14 +10,8 @@
       <v-list-item-content>
         <div class="overline mb-4">Creating Poll [name]</div>
         <v-list-item-title class="headline mb-1">[Headline]</v-list-item-title>
-        <v-list-item-subtitle>Description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione dicta veniam molestiae recusandae repudiandae sit, eligendi exercitationem neque similique aliquam voluptatibus, culpa itaque consequatur officia magni corrupti dolorem necessitatibus nostrum.</v-list-item-subtitle>
+        <v-list-item-subtitle>[Description]: Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione dicta veniam molestiae recusandae repudiandae sit, eligendi exercitationem neque similique aliquam voluptatibus, culpa itaque consequatur officia magni corrupti dolorem necessitatibus nostrum.</v-list-item-subtitle>
       </v-list-item-content>
-
-      <v-list-item-avatar
-        tile
-        size="80"
-        color="grey"
-      ></v-list-item-avatar>
     </v-list-item>
 
     <v-card-actions>
@@ -31,14 +25,49 @@
         <v-icon dark>mdi-plus</v-icon>
       </v-btn>
         <v-card-text> Add Question</v-card-text>
+<v-speed-dial
+      class="mt-8"
+      v-model="fab"
+      :top="top"
+      :bottom="bottom"
+      :right="right"
+      :left="left"
+      :direction="direction"
+      :open-on-hover="hover"
+      :transition="transition"
+    >
+      <template v-slot:activator>
+        <v-btn
+          v-model="fab"
+          color="warning"
+          small
+          dark
+          fab
+        >
+          <v-icon v-if="fab">mdi-close</v-icon>
+          <v-icon v-else>mdi-settings</v-icon>
+        </v-btn>
+      </template>
       <v-btn
-      small
-      fab
-      dark
-      color="warning">
-          <v-icon dark>mdi-pencil</v-icon>
+        fab
+        dark
+        small
+        color="green"
+      >
+        <v-icon>mdi-pencil</v-icon>
       </v-btn>
-      <v-card-text>Redact Questions</v-card-text>
+     
+      <v-btn
+        fab
+        dark
+        small
+        color="red"
+      >
+        <v-icon>mdi-delete</v-icon>
+      </v-btn>
+    </v-speed-dial>
+      
+      <v-card-text class="pl-0">Redact Questions</v-card-text>
     </v-card-actions>
 
 
@@ -98,6 +127,16 @@
     data () {
       
       return {
+      direction: 'bottom',
+      fab: false,
+      fling: false,
+      hover: false,
+      tabs: null,
+      top: false,
+      right: true,
+      bottom: true,
+      left: false,
+      transition: 'slide-y-reverse-transition',
         dialog: false,
         message:null,
         n:0,
@@ -121,10 +160,20 @@
     submit() {
       if(this.$refs.form.validate()) {
         this. items.push(this.Quest);
-        this.$refs.form.reset()
+        this.$refs.form.reset();
       }
     }
     },
     }
   
   </script>
+
+  <style>
+  /* This is for documentation purposes and will not be needed in your application */
+  #create .v-speed-dial {
+    position: absolute;
+  }
+  #create .v-btn--floating {
+    position: relative;
+  }
+</style>
