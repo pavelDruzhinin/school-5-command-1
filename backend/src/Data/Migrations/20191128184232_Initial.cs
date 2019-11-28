@@ -13,8 +13,7 @@ namespace chatbot.Data.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true)
@@ -28,8 +27,7 @@ namespace chatbot.Data.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Id = table.Column<string>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
@@ -56,7 +54,7 @@ namespace chatbot.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    RoleId = table.Column<int>(nullable: false),
+                    RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
                 },
@@ -77,7 +75,7 @@ namespace chatbot.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    UserId = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
                 },
@@ -99,7 +97,7 @@ namespace chatbot.Data.Migrations
                     LoginProvider = table.Column<string>(nullable: false),
                     ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
-                    UserId = table.Column<int>(nullable: false)
+                    UserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -116,8 +114,8 @@ namespace chatbot.Data.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false),
-                    RoleId = table.Column<int>(nullable: false)
+                    UserId = table.Column<string>(nullable: false),
+                    RoleId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -140,7 +138,7 @@ namespace chatbot.Data.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: false),
                     LoginProvider = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
@@ -160,9 +158,8 @@ namespace chatbot.Data.Migrations
                 name: "Creators",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    IdentityId = table.Column<int>(nullable: true)
+                    Id = table.Column<string>(nullable: false),
+                    IdentityId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -179,9 +176,8 @@ namespace chatbot.Data.Migrations
                 name: "Bots",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    BotIds = table.Column<int>(nullable: true),
+                    Id = table.Column<string>(nullable: false),
+                    AuthorId = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     Url = table.Column<string>(nullable: true)
                 },
@@ -189,8 +185,8 @@ namespace chatbot.Data.Migrations
                 {
                     table.PrimaryKey("PK_Bots", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Bots_Creators_BotIds",
-                        column: x => x.BotIds,
+                        name: "FK_Bots_Creators_AuthorId",
+                        column: x => x.AuthorId,
                         principalTable: "Creators",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -200,9 +196,8 @@ namespace chatbot.Data.Migrations
                 name: "Answers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    BotId = table.Column<int>(nullable: true),
+                    Id = table.Column<string>(nullable: false),
+                    BotId = table.Column<string>(nullable: true),
                     Answers = table.Column<List<string>>(nullable: true),
                     DateAdded = table.Column<DateTime>(nullable: false)
                 },
@@ -221,17 +216,16 @@ namespace chatbot.Data.Migrations
                 name: "Questions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    QuestionIds = table.Column<int>(nullable: true),
+                    Id = table.Column<string>(nullable: false),
+                    BotId = table.Column<string>(nullable: true),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Questions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Questions_Bots_QuestionIds",
-                        column: x => x.QuestionIds,
+                        name: "FK_Questions_Bots_BotId",
+                        column: x => x.BotId,
                         principalTable: "Bots",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -280,9 +274,9 @@ namespace chatbot.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bots_BotIds",
+                name: "IX_Bots_AuthorId",
                 table: "Bots",
-                column: "BotIds");
+                column: "AuthorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Creators_IdentityId",
@@ -290,9 +284,9 @@ namespace chatbot.Data.Migrations
                 column: "IdentityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Questions_QuestionIds",
+                name: "IX_Questions_BotId",
                 table: "Questions",
-                column: "QuestionIds");
+                column: "BotId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

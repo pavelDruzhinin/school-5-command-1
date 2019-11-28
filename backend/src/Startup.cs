@@ -45,7 +45,10 @@ namespace App.chatbot.API
             services.Configure<DatabaseSettings>(options => options = dbSettings);
 
             services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(dbSettings.ConnectionString)
+                options
+                    .UseNpgsql(dbSettings.ConnectionString)
+                    .EnableDetailedErrors()
+                    .EnableSensitiveDataLogging()
             );
 
             // Authentication settings
@@ -100,6 +103,7 @@ namespace App.chatbot.API
             builder.AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
             services.AddScoped<ChatBotService>();
+            services.AddScoped<UserService>();
 
         }
 

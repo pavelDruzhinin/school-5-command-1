@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using App.chatbot.API.Authentication;
-using App.chatbot.API.Data;
+using App.chatbot.API.Services;
+
 using App.chatbot.API.Models;
 using App.chatbot.API.Models.ViewModels;
 using App.chatbot.API.Helpers;
@@ -22,13 +22,11 @@ namespace App.chatbot.API.Controllers
     [Route("api/v1/[controller]")]
     public class AccountsController : ControllerBase
     {
-        private readonly ApplicationDbContext _appDbContext;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserService _users;
 
-        public AccountsController(UserManager<ApplicationUser> userManager, ApplicationDbContext appDbContext)
+        public AccountsController(UserService users)
         {
-            _userManager = userManager;
-            _appDbContext = appDbContext;
+            _users = users;
         }
 
         // POST api/v1/accounts/register
@@ -40,14 +38,9 @@ namespace App.chatbot.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var userIdentity = new ApplicationUser { UserName = model.Username };
-
-            var result = await _userManager.CreateAsync(userIdentity, model.Password);
+            var result = await _users.Register(model);
 
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
-
-            await _appDbContext.Creators.AddAsync(new CreatorUser { Identity = userIdentity });
-            await _appDbContext.SaveChangesAsync();
 
             return new OkObjectResult("Account created");
         }

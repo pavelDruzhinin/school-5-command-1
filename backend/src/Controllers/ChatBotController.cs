@@ -20,18 +20,18 @@ namespace App.chatbot.API.Controllers
     public class ChatBotController : ControllerBase
     {
         private readonly ChatBotService _bots;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserService _users;
 
-        public ChatBotController(ChatBotService bots, UserManager<ApplicationUser> userManager)
+        public ChatBotController(ChatBotService bots, UserService users)
         {
             _bots = bots;
-            _userManager = userManager;
+            _users = users;
         }
 
         [HttpPost("add")]
         public async Task<IActionResult> Add(NewChatBotInputViewModel newBot)
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _users.GetCreator(User);
             var bot = await _bots.FromViewModel(newBot, user);
             await _bots.Create(bot);
             return Ok();

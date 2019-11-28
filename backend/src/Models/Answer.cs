@@ -11,12 +11,13 @@ namespace App.chatbot.API.Models
     // Может быть анонимным либо нет (UserId = null)
     public class Answer
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         // [ForeignKey("UserId")]
         // public GuestUser User { get; set; } // navigational property 
 
-        [ForeignKey("BotId")]
+        [ForeignKey("Bot")]
+        public string BotId { get; set; }
         public ChatBot Bot { get; set; } // navigational property 
 
         public List<string> Answers { get; set; }

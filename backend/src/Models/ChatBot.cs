@@ -8,11 +8,12 @@ namespace App.chatbot.API.Models
 {
     public class ChatBot
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         
-        [ForeignKey("QuestionIds")]
         public List<Question> Questions { get; set; } // navigation property
 
+        [ForeignKey("Author")]
+        public string AuthorId { get; set; }
         public CreatorUser Author { get; set; } // navigational property 
 
         public string Name { get; set; }

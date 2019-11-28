@@ -11,8 +11,10 @@ namespace App.chatbot.API.Models
     //          либо пустая строка - свободный ответ
     public class Question
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
+        [ForeignKey("Bot")]
+        public string BotId { get; set; }
         public ChatBot Bot { get; set; } // navigational property
 
         public String Value { get; set; }

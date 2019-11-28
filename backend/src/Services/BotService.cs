@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-using App.chatbot.API.Authentication;
 using App.chatbot.API.Data;
 using App.chatbot.API.Models;
 using App.chatbot.API.Models.ViewModels;
@@ -17,7 +16,7 @@ namespace App.chatbot.API.Services
             _context = context;
         }
 
-        public async Task<ChatBot> FromViewModel(NewChatBotInputViewModel newBot, ApplicationUser creator)
+        public async Task<ChatBot> FromViewModel(NewChatBotInputViewModel newBot, CreatorUser creator)
         {
             // Initialize questions
             List<Question> questions = new List<Question>();
@@ -27,15 +26,10 @@ namespace App.chatbot.API.Services
                 questions.Add(new Question { Value = q.Question, Variants = q.Variants });
             }
 
-            // Get creator
-            var user = _context.Creators
-                        .Where(x => x.Identity.Equals(creator))
-                        .First();
-
             // Make the bot
             return new ChatBot {
                 Name = newBot.Name,
-                Author = user,
+                Author = creator,
                 Questions = questions
             };
         }
@@ -75,7 +69,7 @@ namespace App.chatbot.API.Services
             var result = _context.Bots.Update(bot);
         }
 
-        public async Task Update(int botId, ChatBot bot)
+        public async Task Update(string botId, ChatBot bot)
         {
             bot.Id = botId;
             await Update(bot);

@@ -6,12 +6,12 @@ namespace App.chatbot.API.Models
 {
     public class CreatorUser
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
-        [ForeignKey("IdentityId")]
+        [ForeignKey("Identity")]
+        public string IdentityId { get; set; }
         public ApplicationUser Identity { get; set; }  // navigational property
 
-        [ForeignKey("BotIds")]
         public List<ChatBot> Bots { get; set; }  // navigational property
 
     }
