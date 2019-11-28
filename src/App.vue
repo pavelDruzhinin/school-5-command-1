@@ -24,6 +24,7 @@
 import Index from "./components/Index";
 import Footer from "./components/Footer";
 
+
 export default {
   name: "App",
 
