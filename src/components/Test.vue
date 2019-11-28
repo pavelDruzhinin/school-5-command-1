@@ -2,7 +2,7 @@
 <v-container>
   <v-row>
   <v-card
-    class="ms-10 mt-10"
+    class="mt-10"
     max-width="500"
     outlined
   >
@@ -88,6 +88,7 @@
   </v-card>
 
   </v-row>
+  
 </v-container>
 </template>
 
