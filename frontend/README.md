@@ -22,3 +22,8 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+node_modules/vuetify-loader/lib/plugin.js
+
+6 string - this.options = options || {}
