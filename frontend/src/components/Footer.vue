@@ -37,14 +37,14 @@
                 Dashboard
             </v-btn>
             </router-link>
-            <router-link to="/test" style="text-decoration: none; color: white">
+            <router-link to="/editpoll" style="text-decoration: none; color: white">
                 <v-btn
                         color="white"
                         text
                         rounded
                         class="my-2"
                 >
-                    Test
+                    Edit
                 </v-btn>
             </router-link>
             <v-col

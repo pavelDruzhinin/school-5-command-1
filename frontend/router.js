@@ -4,6 +4,7 @@ import Index from "./src/components/Index"
 import Polls from "./src/components/Polls"
 import Admin from "./src/components/Admin"
 import Test from "./src/components/Test"
+import EditPoll from "./src/components/EditPoll"
 
 Vue.use(Router);
 
@@ -32,6 +33,13 @@ export default new Router({
             path: '/test/',
             name: 'test',
             component: Test,
+            props: true,
+        },
+
+        {
+            path: '/editpoll/',
+            name: 'editpoll',
+            component: EditPoll,
             props: true,
         }
     ]
