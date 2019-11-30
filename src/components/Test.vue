@@ -109,7 +109,17 @@
        v-for="item in items"
         :key="item">
        <v-list-item-content>
-            <v-list-item-title v-text="item"></v-list-item-title>
+         <v-row>
+           <v-col class="mt-2" cols="5">  
+            <v-list-item-title v-text="item" class="ml-10"></v-list-item-title>
+           </v-col>
+           <v-col cols="2">  
+            <v-btn  text icon absolute right><v-icon>mdi-delete</v-icon></v-btn>
+           </v-col>
+             <v-col cols="2">
+            <v-btn text icon class="ml-10"><v-icon>mdi-pencil</v-icon></v-btn>
+             </v-col>
+         </v-row>
           </v-list-item-content>
       </v-list-item>
     </v-list>
