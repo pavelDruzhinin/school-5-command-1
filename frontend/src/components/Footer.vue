@@ -7,16 +7,6 @@
                 justify="center"
                 no-gutters
         >
-            <v-btn
-                    v-for="link in links"
-                    :key="link"
-                    color="white"
-                    text
-                    rounded
-                    class="my-2"
-            >
-                {{ link }}
-            </v-btn>
             <router-link to="/polls" style="text-decoration: none; color: white">
             <v-btn
                     color="white"

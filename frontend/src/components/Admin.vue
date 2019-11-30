@@ -1,121 +1,160 @@
 <template>
-    <v-card>
-        <v-card-title>
-            List of polls
-            <v-spacer></v-spacer>
-            <v-text-field
-                    v-model="search"
-                    append-icon=""
-                    label="Search"
-                    single-line
-                    hide-details
-            ></v-text-field>
-        </v-card-title>
-        <v-data-table
-                :headers="headers"
-                :items="desserts"
-                :search="search"
-        ></v-data-table>
-    </v-card>
-</template>
+    <div>
+        <v-card>
+            <v-card-title>
+                Nutrition
+                <v-spacer></v-spacer>
+                <v-text-field
+                        append-icon="mdi-search-web"
+                        label="Search"
+                        single-line
+                        hide-details
+                        v-model="search"
+                ></v-text-field>
+            </v-card-title>
+            <v-data-table
+                    v-model="selected"
+                    :headers="headers"
+                    :items="items"
+                    :search="search"
+                    @onRowClick="openDetail"
 
+            >
+                <template v-slot:item="props">
+                    <tr @click="openDetail(props.item)">
+                        <td>{{ props.item.name }}</td>
+                        <td class="text-xs-right">{{ props.item.calories }}</td>
+                        <td class="text-xs-right">{{ props.item.fat }}</td>
+                        <td class="text-xs-right">{{ props.item.carbs }}</td>
+                        <td class="text-xs-right">{{ props.item.protein }}</td>
+                        <td class="text-xs-right">{{ props.item.iron }}</td>
+                    </tr>
+                </template>
+                <v-alert slot="no-results" :value="true" color="error" icon="warning">
+                    Your search for "{{ search }}" found no results.
+                </v-alert>
+            </v-data-table>
+        </v-card>
+    </div>
+</template>
 <script>
     export default {
+        methods: {
+            openDetail(a) {
+                if (event.target.classList.contains('btn__content')) return;
+                alert('Dessert: \n' + a.name);
+            }
+        },
         data() {
             return {
+                selected: [],
                 search: '',
                 headers: [
                     {
-                        text: 'Poll title',
+                        text: 'Dessert (100g serving)',
                         align: 'left',
                         sortable: false,
-                        value: 'name',
+                        value: 'name'
                     },
-                    {text: 'Company', value: 'company'},
-                    {text: 'Number of questions', value: 'numquest'},
-                    {text: 'Polled users', value: 'userpolls'},
-                    {text: 'Creation date', value: 'creatdate'},
+                    {text: 'Calories', value: 'calories'},
+                    {text: 'Fat (g)', value: 'fat'},
+                    {text: 'Carbs (g)', value: 'carbs'},
+                    {text: 'Protein (g)', value: 'protein'},
+                    {text: 'Iron (%)', value: 'iron'}
                 ],
-                desserts: [
+                items: [
                     {
-                        name: 'Motor mechanic',
-                        company: 'Roga I Kopita',
-                        userpolls: 159,
-                        numquest: 7,
-                        creatdate: '02.10.2015',
+                        value: false,
+                        name: 'Frozen Yogurt',
+                        calories: 159,
+                        fat: 6.0,
+                        carbs: 24,
+                        protein: 4.0,
+                        iron: '1%'
                     },
                     {
-                        name: 'Obstetrician',
-                        company: 'Westindische Compagnie',
-                        userpolls: 237,
-                        numquest: 12,
-                        creatdate: '22.09.2017',
+                        value: false,
+                        name: 'Ice cream sandwich',
+                        calories: 237,
+                        fat: 9.0,
+                        carbs: 37,
+                        protein: 4.3,
+                        iron: '1%'
                     },
                     {
-                        name: 'Auditor',
-                        company: 'Roga I Kopita',
-                        userpolls: 262,
-                        numquest: 10,
-                        creatdate: '28.12.2016',
+                        value: false,
+                        name: 'Eclair',
+                        calories: 262,
+                        fat: 16.0,
+                        carbs: 23,
+                        protein: 6.0,
+                        iron: '7%'
                     },
                     {
-                        name: 'Botanist',
-                        company: 'Westindische Compagnie',
-                        userpolls: 305,
-                        numquest: 3,
-                        creatdate: '16.12.2019',
+                        value: false,
+                        name: 'Cupcake',
+                        calories: 305,
+                        fat: 3.7,
+                        carbs: 67,
+                        protein: 4.3,
+                        iron: '8%'
                     },
                     {
-                        name: 'Bookkeeper',
-                        company: 'Westindische Compagnie',
-                        userpolls: 356,
-                        numquest: 15,
-                        creatdate: '15.04.2016',
+                        value: false,
+                        name: 'Gingerbread',
+                        calories: 356,
+                        fat: 16.0,
+                        carbs: 49,
+                        protein: 3.9,
+                        iron: '16%'
                     },
                     {
-                        name: 'Plumber',
-                        company: 'Roga I Kopita',
-                        userpolls: 375,
-                        numquest: 26,
-                        creatdate: '19.12.2017',
+                        value: false,
+                        name: 'Jelly bean',
+                        calories: 375,
+                        fat: 0.0,
+                        carbs: 94,
+                        protein: 0.0,
+                        iron: '0%'
                     },
                     {
-                        name: 'Geneticist',
-                        company: 'Roga I Kopita',
-                        userpolls: 392,
-                        numquest: 44,
-                        creatdate: '10.11.2016',
+                        value: false,
+                        name: 'Lollipop',
+                        calories: 392,
+                        fat: 0.2,
+                        carbs: 98,
+                        protein: 0,
+                        iron: '2%'
                     },
                     {
-                        name: 'Railwayman',
-                        company: 'Roga I Kopita',
-                        userpolls: 408,
-                        numquest: 35,
-                        creatdate: '30.11.2015',
+                        value: false,
+                        name: 'Honeycomb',
+                        calories: 408,
+                        fat: 3.2,
+                        carbs: 87,
+                        protein: 6.5,
+                        iron: '45%'
                     },
                     {
-                        name: 'Merchant',
-                        company: 'Westindische Compagnie',
-                        userpolls: 452,
-                        numquest: 17,
-                        creatdate: '27.03.2017',
+                        value: false,
+                        name: 'Donut',
+                        calories: 452,
+                        fat: 25.0,
+                        carbs: 51,
+                        protein: 4.9,
+                        iron: '22%'
                     },
                     {
-                        name: 'Astronaut',
-                        company: 'Roga I Kopita',
-                        userpolls: 518,
-                        numquest: 18,
-                        creatdate: '29.03.2016',
-                    },
-                    {
-                        name: 'Astronaut',
-                        company: 'Roga I Kopita',
-                        userpolls: 518,
-                        numquest: 18,
-                        creatdate: '29.03.2016',
-                    },
-                ],
+                        value: false,
+                        name: 'KitKat',
+                        calories: 518,
+                        fat: 26.0,
+                        carbs: 65,
+                        protein: 7,
+                        iron: '6%'
+                    }
+                ]
             }
-        },
+        }
     }
 </script>
