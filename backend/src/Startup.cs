@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
@@ -18,6 +20,7 @@ using Microsoft.IdentityModel.Tokens;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using App.chatbot.API.Authentication;
 using App.chatbot.API.Data;
+using App.chatbot.API.Helpers;
 using App.chatbot.API.Services;
 using Serilog;
 
@@ -66,25 +69,10 @@ namespace App.chatbot.API
                 options.SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(_secretKey), SecurityAlgorithms.HmacSha256);
             });
 
-            services.AddAuthentication(x =>
+            // api user claim policy
+            services.AddAuthorization(options =>
             {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = true;
-                x.SaveToken = true;
-                x.ClaimsIssuer = token.Issuer;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(_secretKey),
-                    ValidateIssuer = true,
-                    ValidIssuer = token.Issuer,
-                    ValidateAudience = true,
-                    ValidAudience = token.Audience
-                };
+                options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
             });
 
             services.AddSingleton<IJwtFactory, JwtFactory>();
@@ -101,6 +89,26 @@ namespace App.chatbot.API
             });
             builder = new IdentityBuilder(builder.UserType, typeof(ApplicationRole), builder.Services);
             builder.AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = true;
+                x.ClaimsIssuer = token.Issuer;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(_secretKey),
+                    ValidateIssuer = false,
+                    ValidIssuer = token.Issuer,
+                    ValidateAudience = false,
+                    ValidAudience = token.Audience
+                };
+            });
 
             services.AddScoped<ChatBotService>();
             services.AddScoped<UserService>();

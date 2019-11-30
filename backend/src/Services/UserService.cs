@@ -5,10 +5,13 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using App.chatbot.API.Authentication;
 using App.chatbot.API.Data;
 using App.chatbot.API.Models;
 using App.chatbot.API.Models.ViewModels;
+using Serilog;
 
 namespace App.chatbot.API.Services
 {
@@ -16,11 +19,41 @@ namespace App.chatbot.API.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _users;
+        private readonly IJwtFactory _jwtFactory;
+        private readonly JwtIssuerOptions _jwtOptions;
 
-        public UserService(ApplicationDbContext context, UserManager<ApplicationUser> users)
+        public UserService(ApplicationDbContext context, UserManager<ApplicationUser> users, IJwtFactory jwtFactory, JwtIssuerOptions jwtOptions)
         {
             _context = context;
             _users = users;
+            _jwtFactory = jwtFactory;
+            _jwtOptions = jwtOptions;
+        }
+
+        
+        public async Task<string> GenerateJwt(ClaimsIdentity identity, string UserId)
+        {
+            return await Tokens.GenerateJwt(identity, _jwtFactory, UserId, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
+        }
+
+        public async Task<ClaimsIdentity> GetClaimsIdentity(string username, string password)
+        {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                return await Task.FromResult<ClaimsIdentity>(null);
+
+            // get the user to verifty
+            var userToVerify = await _users.FindByNameAsync(username);
+
+            if (userToVerify == null) return await Task.FromResult<ClaimsIdentity>(null);
+
+            // check the credentials
+            if (await _users.CheckPasswordAsync(userToVerify, password))
+            {
+                return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(username, userToVerify.Id.ToString()));
+            }
+
+            // Credentials are invalid, or account doesn't exist
+            return await Task.FromResult<ClaimsIdentity>(null);     
         }
 
         public async Task<IdentityResult> Register(RegistrationInputViewModel model)
@@ -32,36 +65,32 @@ namespace App.chatbot.API.Services
             if (!result.Succeeded) return result;
 
             // Add new user as Creator 
-            await _context.Creators.AddAsync(new CreatorUser { Identity = userIdentity });
+            await _context.Creators.AddAsync(new CreatorUser { IdentityId = userIdentity.Id });
             await _context.SaveChangesAsync();
 
             return result;
         }
 
-        public async Task<ApplicationUser> GetUser(ClaimsPrincipal claims)
+        public async Task<ApplicationUser> GetUserById(string id)
         {
-            return await _users.GetUserAsync(claims);
+            return await _users.FindByIdAsync(id);
         }
 
         public async Task<CreatorUser> GetCreator(ApplicationUser user)
         {
-            // System.Func<CreatorUser, bool> predicate = (x) => {
-            //     if (x == null) throw new System.NullReferenceException("Creator is null");
-            //     if (x.Identity == null) throw new System.MemberAccessException("Creator is not connected to an identity");
-            //     return x.Identity.Id == user.Id;
-            // };
+            if(user == null)
+                return await Task.FromResult<CreatorUser>(null);
+
+            System.Func<CreatorUser, bool> predicate = (x) => {
+                if (x == null) throw new System.NullReferenceException("Creator is null");
+                if (x.Identity == null) throw new System.MemberAccessException("Creator is not connected to an identity");
+                return x.Identity.Id.Equals(user.Id);
+            };
 
             return _context.Creators
                     .Include(x => x.Identity)
-                        .ThenInclude(i => i.Id)
-                    .Where(x => x.Identity.Id.Equals(user.Id))
+                    .Where(predicate) // x => x.Identity.Id.Equals(user.Id)
                     .First();
-        }
-
-        public async Task<CreatorUser> GetCreator(ClaimsPrincipal claims)
-        {
-            var user = await GetUser(claims);
-            return await GetCreator(user);
         }
     }
 }

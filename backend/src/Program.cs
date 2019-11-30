@@ -28,6 +28,7 @@ namespace App.chatbot.API
                 .UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
                     .ReadFrom.Configuration(hostingContext.Configuration)
                     .Enrich.WithProperty("ApplicationContext", AppName)
+                    // .Destructure.ToMaximumDepth(5)
                     // .Enrich.FromLogContext()
                     // .Enrich.WithCorrelationId()
                     // .WriteTo.Debug()

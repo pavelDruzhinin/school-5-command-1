@@ -29,12 +29,12 @@ namespace App.chatbot.API.Services
             // Make the bot
             return new ChatBot {
                 Name = newBot.Name,
-                Author = creator,
+                AuthorId = creator.Id,
                 Questions = questions
             };
         }
 
-        public async Task<ChatBot> GetById(int botId)
+        public async Task<ChatBot> GetById(string botId)
         {
             var bot = await _context.Bots.FindAsync(botId);
             return bot;
@@ -58,7 +58,7 @@ namespace App.chatbot.API.Services
             _context.Bots.Remove(bot);
         }
 
-        public async Task Delete(int botId)
+        public async Task Delete(string botId)
         {
             var bot = await _context.Bots.FindAsync(botId);
             await Delete(bot);

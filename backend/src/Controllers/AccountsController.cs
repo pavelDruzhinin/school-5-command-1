@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using System.Security.Claims;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
@@ -8,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using App.chatbot.API.Services;
-
+using App.chatbot.API.Authentication;
 using App.chatbot.API.Models;
 using App.chatbot.API.Models.ViewModels;
 using App.chatbot.API.Helpers;
@@ -31,7 +32,7 @@ namespace App.chatbot.API.Controllers
 
         // POST api/v1/accounts/register
         [HttpPost("register")]
-        public async Task<IActionResult> Post([FromBody]RegistrationInputViewModel model)
+        public async Task<IActionResult> Register([FromBody]RegistrationInputViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -43,6 +44,25 @@ namespace App.chatbot.API.Controllers
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
             return new OkObjectResult("Account created");
+        }
+
+        [HttpGet("current")]
+        public async Task<string> Current() // TODO: Output view model
+        {
+            var user = await GetCurrentUser();
+            return await Task.FromResult(user.UserName);
+        }
+
+        private async Task<ApplicationUser> GetCurrentUser()
+        {
+            var claim = HttpContext.User;
+            if(claim == null) return await Task.FromResult<ApplicationUser>(null);
+            var id = HttpContext.User.Claims.FirstOrDefault(c => {
+                Log.Verbose("Claim type {@claim}", c.Type);
+                return c.Type == "id";
+            })?.Value;
+            if(id == null) return await Task.FromResult<ApplicationUser>(null);
+            return await _users.GetUserById(id);
         }
     }
 }
