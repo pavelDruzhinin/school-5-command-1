@@ -40,11 +40,11 @@ namespace App.chatbot.API.Controllers
         /// 
         ///     POST /api/v1/chatbot/add
         ///     {
-        ///         "Name": "Testbot",
-        ///         "Questions": [
-        ///             { "Question": "Who are you?", "Variants": [] },
-        ///             { "Question": "What is your pet?", "Variants": [ "Cat", "Dog" ] }
-        ///         ]
+        ///     	"Name": "Newbot",
+	    ///         "Questions": [
+		///             { "Question": "What", "Value": { "type": "any" } },
+        ///             { "Question": "Which", "Value": { "variants": ["Cat", "Dog"] } }
+	    ///         ]
         ///     }
         /// 
         /// </remarks>
@@ -59,10 +59,10 @@ namespace App.chatbot.API.Controllers
         {
             var user = await GetCurrentUser();
             if(user == null)
-                return Forbid("Not logged in");
+                return Forbid();
             var creator = await _users.GetCreator(user);
             if(creator == null)
-                return Forbid("Not a creator");
+                return Forbid();
             var bot = await ChatBotService.FromViewModel(newBot, creator);
             if(bot == null)
             {
@@ -109,10 +109,10 @@ namespace App.chatbot.API.Controllers
         {
             var user = await GetCurrentUser();
             if(user == null)
-                return Forbid("Not logged in");
+                return Forbid();
             var creator = await _users.GetCreator(user);
             if(creator == null)
-                return Forbid("Not a creator");
+                return Forbid();
             var bots = await _bots.GetForUser(creator);
             var botsView = bots.Select(b => new BotOutputViewModel(b));
             var output = new ListBotOutputViewModel { Bots = botsView };

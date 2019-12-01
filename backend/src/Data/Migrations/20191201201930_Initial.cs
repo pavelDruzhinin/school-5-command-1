@@ -218,8 +218,8 @@ namespace chatbot.Data.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     BotId = table.Column<string>(nullable: true),
-                    Value = table.Column<string>(nullable: true),
-                    Variants = table.Column<string>(nullable: true)
+                    Text = table.Column<string>(nullable: true),
+                    Value = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
                 {

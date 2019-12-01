@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace App.chatbot.API.Models.ViewModels
 {
@@ -7,15 +9,17 @@ namespace App.chatbot.API.Models.ViewModels
     {
         public string Question { get; set; }
         
-        public IEnumerable<string> Variants { get; set; }
+        public object Value { get; set; }
 
         public QuestionOutputViewModel(Question question)
         {
-            Question = question.Value;
-            if(string.IsNullOrEmpty(question.Variants))
-                Variants = null;
-            else
-                Variants = question.Variants.Split(";");
+            var serializer = new JsonSerializer();
+            
+            Question = question.Text;
+
+            using(var strReader = new StringReader(question.Value))
+            using(var jsonReader = new JsonTextReader(strReader))
+                Value = serializer.Deserialize<dynamic>(jsonReader);
         }
     }
 }

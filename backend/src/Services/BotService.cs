@@ -25,11 +25,11 @@ namespace App.chatbot.API.Services
 
             foreach(var q in newBot.Questions)
             {
-                questions.Add(new Question { Value = q.Question, Variants = string.Join(";", q.Variants) });
+                questions.Add(new Question { Text = q.Question, Value = q.SerializedValue() });
             }
 
             var rng = new Random();
-            var url = rng.Next().ToString("x8"); // Will generate hex strings up to 8 chars in length
+            var url = rng.Next().ToString("x8"); // Will generate hex strings 8 chars in length
 
             // Make the bot
             return new ChatBot {

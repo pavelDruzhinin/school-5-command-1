@@ -45,7 +45,7 @@ namespace App.chatbot.API.Controllers
             var identity = await _users.GetClaimsIdentity(credentials.Username, credentials.Password);
             if (identity == null)
             {
-                return Forbid("Invalid username or password.");
+                return Forbid();
             }
 
             var userid = identity.FindFirst(c => c.Type == Constants.Strings.JwtClaimIdentifiers.Id).Value;
