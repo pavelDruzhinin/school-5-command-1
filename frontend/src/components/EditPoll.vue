@@ -8,7 +8,7 @@
   >
     <v-list-item three-line>
       <v-list-item-content>
-        <div class="overline mb-4">Creating Poll [name]</div>
+        <div class="overline mb-4">Editing Poll [name]</div>
         <v-list-item-title class="headline mb-1">[Headline]</v-list-item-title>
         <v-list-item-subtitle>[Description]: Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione dicta veniam molestiae recusandae repudiandae sit, eligendi exercitationem neque similique aliquam voluptatibus, culpa itaque consequatur officia magni corrupti dolorem necessitatibus nostrum.</v-list-item-subtitle>
       </v-list-item-content>
@@ -25,49 +25,7 @@
         <v-icon dark>mdi-plus</v-icon>
       </v-btn>
         <v-card-text> Add Question</v-card-text>
-<v-speed-dial
-      class="mt-8"
-      v-model="fab"
-      :top="top"
-      :bottom="bottom"
-      :right="right"
-      :left="left"
-      :direction="direction"
-      :open-on-hover="hover"
-      :transition="transition"
-    >
-      <template v-slot:activator>
-        <v-btn
-          v-model="fab"
-          color="warning"
-          small
-          dark
-          fab
-        >
-          <v-icon v-if="fab">mdi-close</v-icon>
-          <v-icon v-else>mdi-settings</v-icon>
-        </v-btn>
-      </template>
-      <v-btn
-        fab
-        dark
-        small
-        color="green"
-      >
-        <v-icon>mdi-pencil</v-icon>
-      </v-btn>
-     
-      <v-btn
-        fab
-        dark
-        small
-        color="red"
-      >
-        <v-icon>mdi-delete</v-icon>
-      </v-btn>
-    </v-speed-dial>
-      
-      <v-card-text class="pl-0">Redact Questions</v-card-text>
+
     </v-card-actions>
 
 
@@ -95,44 +53,57 @@
               @click="reset();dialog=false">Close</v-btn>
                 </v-form>      
             </v-card-text>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              
-              
-            </v-card-actions>
           </v-card>
         </v-dialog>
 
+     
     <v-list>
       <v-list-item
-       v-for="item in items"
-        :key="item">
+       v-for="post in posts"
+        :key="post">
        <v-list-item-content>
-         <v-row>
-           <v-col class="mt-2" cols="5">  
-            <v-list-item-title v-text="item" class="ml-10"></v-list-item-title>
-           </v-col>
-           <v-col cols="2">  
-            <v-btn  text icon absolute right><v-icon>mdi-delete</v-icon></v-btn>
-           </v-col>
-             <v-col cols="2">
-            <v-btn text icon class="ml-10"><v-icon>mdi-pencil</v-icon></v-btn>
-             </v-col>
-         </v-row>
+        <!--     <v-col class="mt-2" cols="5">   -->
+            <v-list-item-title> <p>{{post.id}}) {{post.title}}</p></v-list-item-title>
+       <!--      </v-col>  -->
+        <!--     <v-col cols="2">   -->
+          <v-btn-toggle
+            v-model="toggle_exclusive"
+            class="mx-auto"
+            rounded
+          >
+            <v-btn text icon @click="deletePost(post.title)"><v-icon>mdi-delete</v-icon></v-btn>
+            <v-btn text icon @click="dialog2=!dialog2;dialogwrite(post.title)"><v-icon>mdi-pencil</v-icon></v-btn>
+          </v-btn-toggle>
+      <!--       </v-col>  -->
+         <!--      <v-col cols="2">  -->
+        <!--       </v-col>  -->
+    <!--     </v-row> -->
           </v-list-item-content>
       </v-list-item>
-    </v-list>
+    </v-list> 
+    <!--
+     <ul v-if="posts && posts.length">
+            <li v-for="post in posts" :key="post">
+                <p><strong>{{post.title}}</strong></p>
+                <p>{{post.body}}</p>
+            </li>
+        </ul> -->
 
   </v-card>
 
   </v-row>
   
+
+
+
+
 </v-container>
 </template>
 
 
 <script>
+import axios from 'axios';
+
   export default {
     data () {
       
@@ -148,13 +119,28 @@
       left: false,
       transition: 'slide-y-reverse-transition',
         dialog: false,
+        dialog2:false,
         message:null,
         n:0,
         items:[],
+        posts:[],
+        errors:[],
         formIsValid: [
           (v) => !!v || 'Field is required'
         ]
       }
+    },
+
+    created() {
+      axios.get(`https://jsonplaceholder.typicode.com/posts`)
+      .then(response=> {
+        this.posts= response.data;
+      })
+      .catch(error=> {
+        window.console.log(error);
+        this.errored=true;
+      })
+
     },
   
 
@@ -172,8 +158,18 @@
         this. items.push(this.Quest);
         this.$refs.form.reset();
       }
-    }
     },
+    deletePost(n) {
+      for (let i=0; i<=this.posts.length; i++) {
+        if (this.posts[i].title==n) {
+          this.posts.splice(i,1);
+        }
+      }
+      
+    },
+   
+    },
+    
     }
   
   </script>
