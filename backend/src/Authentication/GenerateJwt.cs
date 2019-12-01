@@ -2,22 +2,21 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using App.chatbot.API.Models;
+using App.chatbot.API.Models.ViewModels;
 
 namespace App.chatbot.API.Authentication
 {
     public class Tokens
     {
-        public static async Task<string> GenerateJwt(ClaimsIdentity identity, IJwtFactory jwtFactory, string UserId, JwtIssuerOptions jwtOptions, JsonSerializerSettings serializerSettings)
+        public static async Task<AuthOutputViewModel> GenerateJwt(ClaimsIdentity identity, IJwtFactory jwtFactory, string UserId, JwtIssuerOptions jwtOptions)
         {
-            var response = new
+            var response = new AuthOutputViewModel
             {
-                id = identity.Claims.Single(c => c.Type == "id").Value,
-                auth_token = await jwtFactory.GenerateEncodedToken(UserId, identity),
-                expires_in = (int)jwtOptions.ValidFor.TotalSeconds
+                Id = identity.Claims.Single(c => c.Type == "id").Value,
+                Token = await jwtFactory.GenerateEncodedToken(UserId, identity),
+                ExpiresIn = jwtOptions.ValidFor.TotalSeconds.ToString()
             };
-
-            return JsonConvert.SerializeObject(response, serializerSettings);
+            return response;
         }
     }
 }
