@@ -58,7 +58,6 @@ namespace App.chatbot.API.Controllers
             var claim = HttpContext.User;
             if(claim == null) return await Task.FromResult<ApplicationUser>(null);
             var id = HttpContext.User.Claims.FirstOrDefault(c => {
-                Log.Verbose("Claim type {@claim}", c.Type);
                 return c.Type == "id";
             })?.Value;
             if(id == null) return await Task.FromResult<ApplicationUser>(null);

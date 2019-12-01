@@ -129,6 +129,8 @@ namespace chatbot.Data.Migrations
 
                     b.Property<string>("Value");
 
+                    b.Property<string>("Variants");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BotId");

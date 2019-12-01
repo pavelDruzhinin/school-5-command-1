@@ -8,6 +8,6 @@ namespace App.chatbot.API.Models.ViewModels
         [Required]
         public string Question { get; set; }
         
-        public IEnumerable<string> Variants { get; set; }
+        public List<string> Variants { get; set; }
     }
 }

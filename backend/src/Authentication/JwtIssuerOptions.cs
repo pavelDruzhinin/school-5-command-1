@@ -13,7 +13,7 @@ namespace App.chatbot.API.Authentication
         public DateTime Expiration => IssuedAt.Add(ValidFor);
         public DateTime NotBefore { get; set; } = DateTime.UtcNow;
         public DateTime IssuedAt { get; set; } = DateTime.UtcNow;
-        public TimeSpan ValidFor { get; set; } = TimeSpan.FromMinutes(120);
+        public TimeSpan ValidFor { get; set; } = TimeSpan.FromDays(1);
         public bool RequireHttpsMetadata { get; set; } = true;
         public Func<Task<string>> JtiGenerator =>
             () => Task.FromResult(Guid.NewGuid().ToString());

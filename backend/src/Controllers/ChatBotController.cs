@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using System.Linq;
@@ -30,7 +31,6 @@ namespace App.chatbot.API.Controllers
         }
 
         [HttpPost("add")]
-        [Authorize]
         public async Task<IActionResult> Add(NewChatBotInputViewModel newBot)
         {
             var usr = await GetCurrentUser();
@@ -39,7 +39,7 @@ namespace App.chatbot.API.Controllers
             {
                 return Forbid();
             }
-            var bot = await _bots.FromViewModel(newBot, user);
+            var bot = await ChatBotService.FromViewModel(newBot, user);
             if(bot == null)
             {
                 throw new System.NullReferenceException("Could not create a new bot");
@@ -48,13 +48,24 @@ namespace App.chatbot.API.Controllers
             return Ok();
         }
 
+        [HttpGet("listmine")]
+        public async Task<IEnumerable<ListBotOutputViewModel>> GetMine()
+        {
+            var user = await GetCurrentUser();
+            var creator = await _users.GetCreator(user);
+            var bots = await _bots.GetForUser(creator);
+            var output = bots.Select(b => new ListBotOutputViewModel(b));
+            return output;
+        }
+
         private async Task<ApplicationUser> GetCurrentUser()
         {
             var claim = HttpContext.User;
-            var id = HttpContext.User.Claims.First(c => {
-                Log.Verbose("Claim type {@claim}", c.Type);
+            if(claim == null) return await Task.FromResult<ApplicationUser>(null);
+            var id = HttpContext.User.Claims.FirstOrDefault(c => {
                 return c.Type == "id";
-            }).Value;
+            })?.Value;
+            if(id == null) return await Task.FromResult<ApplicationUser>(null);
             return await _users.GetUserById(id);
         }
     }

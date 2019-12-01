@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using App.chatbot.API.Data;
 using App.chatbot.API.Models;
 using App.chatbot.API.Models.ViewModels;
@@ -16,14 +17,14 @@ namespace App.chatbot.API.Services
             _context = context;
         }
 
-        public async Task<ChatBot> FromViewModel(NewChatBotInputViewModel newBot, CreatorUser creator)
+        public static async Task<ChatBot> FromViewModel(NewChatBotInputViewModel newBot, CreatorUser creator)
         {
             // Initialize questions
             List<Question> questions = new List<Question>();
 
             foreach(var q in newBot.Questions)
             {
-                questions.Add(new Question { Value = q.Question, Variants = q.Variants });
+                questions.Add(new Question { Value = q.Question, Variants = string.Join(";", q.Variants) });
             }
 
             // Make the bot
@@ -32,6 +33,15 @@ namespace App.chatbot.API.Services
                 AuthorId = creator.Id,
                 Questions = questions
             };
+        }
+
+        public async Task<IEnumerable<ChatBot>> GetForUser(CreatorUser creator)
+        {
+            return await _context.Bots
+                .Include(x => x.Author)
+                .Include(x => x.Questions)
+                .Where(x => x.Author.Id == creator.Id)
+                .ToListAsync();
         }
 
         public async Task<ChatBot> GetById(string botId)
@@ -51,11 +61,13 @@ namespace App.chatbot.API.Services
         public async Task Create(ChatBot bot)
         {
             var result = await _context.Bots.AddAsync(bot);
+            await _context.SaveChangesAsync();
         }
 
         public async Task Delete(ChatBot bot)
         {
             _context.Bots.Remove(bot);
+            await _context.SaveChangesAsync();
         }
 
         public async Task Delete(string botId)
