@@ -9,7 +9,7 @@
     <v-list-item three-line>
       <v-list-item-content>
         <v-list-item-title class="headline mb-1">Editing Poll [name]</v-list-item-title>
-        <v-list-item-subtitle>[Description]: Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione dicta veniam molestiae recusandae repudiandae sit, eligendi exercitationem neque similique aliquam voluptatibus, culpa itaque consequatur officia magni corrupti dolorem necessitatibus nostrum.</v-list-item-subtitle>
+        <v-list-item-subtitle><p>[Description]: Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione dicta veniam molestiae recusandae repudiandae sit, eligendi exercitationem neque similique aliquam voluptatibus, culpa itaque consequatur officia magni corrupti dolorem necessitatibus nostrum.</p></v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
 
@@ -123,15 +123,8 @@ import axios from 'axios';
       return {
       direction: 'bottom',
       fab: false,
-      fling: false,
-      hover: false,
-      tabs: null,
-      top: false,
-      right: true,
-      bottom: true,
-      left: false,
+      
       globalid:null,
-      transition: 'slide-y-reverse-transition',
         dialog: false,
         redactPost:false,
         message:null,
@@ -185,11 +178,15 @@ import axios from 'axios';
     },
 
    redact() {
+      if(this.$refs.form.validate()) {
       for (let i=0; i<=this.posts.length; i++) {
         if (this.posts[i].id==this.globalid) {
-          this.posts[i].title=this.redQuest;
-        } 
+         
+          this.posts[i].title=this.redQuest; 
+        }
+        
     }
+      }
     }, 
     dialogwrite(str,num) {
       this.redQuest=str;
