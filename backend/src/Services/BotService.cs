@@ -86,6 +86,7 @@ namespace App.chatbot.API.Services
         public async Task Update(ChatBot bot)
         {
             var result = _context.Bots.Update(bot);
+            await _context.SaveChangesAsync();
         }
 
         public async Task Update(string botId, ChatBot bot)

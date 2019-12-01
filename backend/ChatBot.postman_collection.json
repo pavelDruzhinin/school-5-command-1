@@ -236,6 +236,102 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Patch bot name",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjOGRmZmRlYS0zY2UyLTRmMTAtYmUwOS03MzQzYmYzMWJmZjUiLCJqdGkiOiI3ZDYyYWM2Yy0wOTQ5LTQ0MTktOTRhZi1hYTgwYzE3ZWRhNGEiLCJpYXQiOjE1NzUyMzQzMDQsInJvbCI6ImFwaV9hY2Nlc3MiLCJpZCI6ImM4ZGZmZGVhLTNjZTItNGYxMC1iZTA5LTczNDNiZjMxYmZmNSIsIm5iZiI6MTU3NTIzNDMwNCwiZXhwIjoxNTc1MzIwNzA0LCJpc3MiOiJUaGlzIGFwcCIsImF1ZCI6ImV2ZXJ5b25lIn0.O-Bf3UV0MX1XDsO9GNml2n3qsoXY75aWDoQ5EGFiMV4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Testbot\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/api/v1/chatbot/647a43b9",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"v1",
+								"chatbot",
+								"647a43b9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch bot questions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjOGRmZmRlYS0zY2UyLTRmMTAtYmUwOS03MzQzYmYzMWJmZjUiLCJqdGkiOiI3ZDYyYWM2Yy0wOTQ5LTQ0MTktOTRhZi1hYTgwYzE3ZWRhNGEiLCJpYXQiOjE1NzUyMzQzMDQsInJvbCI6ImFwaV9hY2Nlc3MiLCJpZCI6ImM4ZGZmZGVhLTNjZTItNGYxMC1iZTA5LTczNDNiZjMxYmZmNSIsIm5iZiI6MTU3NTIzNDMwNCwiZXhwIjoxNTc1MzIwNzA0LCJpc3MiOiJUaGlzIGFwcCIsImF1ZCI6ImV2ZXJ5b25lIn0.O-Bf3UV0MX1XDsO9GNml2n3qsoXY75aWDoQ5EGFiMV4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"questions\": [\n\t\t{ \"Question\": \"Why\", \"Value\": { \"type\": \"whatever\" } }\t\n\t]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/api/v1/chatbot/647a43b9",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"v1",
+								"chatbot",
+								"647a43b9"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}

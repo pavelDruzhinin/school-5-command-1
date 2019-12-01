@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using App.chatbot.API.Authentication;
@@ -50,16 +51,16 @@ namespace App.chatbot.API.Controllers
         /// </remarks>
         /// <param name="newBot"></param>
         /// <returns>Nothing</returns>
-        /// <response code="200">New bot is successfully added</response>
-        /// <response code="401">Not logged in or this user can't add bots</response>
+        /// <response code="201">New bot is successfully created</response>
+        /// <response code="403">Not logged in or this user can't add bots</response>
         [HttpPost("add")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<IActionResult> Add(NewChatBotInputViewModel newBot)
         {
             var user = await GetCurrentUser();
             if(user == null)
-                return Forbid();
+                return Unauthorized();
             var creator = await _users.GetCreator(user);
             if(creator == null)
                 return Forbid();
@@ -76,11 +77,11 @@ namespace App.chatbot.API.Controllers
             );
         }
 
-        // GET api/v1/chatbot/[url]
+        // GET api/v1/chatbot/{url:8}
         /// <summary>
         /// Access a chat bot by its unique url
         /// </summary>
-        /// <param name="url"></param>
+        /// <param name="url">Unique bot URL</param>
         /// <returns>A chat bot instance</returns>
         /// <response code="200">The requested chat bot</response>
         /// <response code="404">Bot withthis url is not found</response>
@@ -95,21 +96,50 @@ namespace App.chatbot.API.Controllers
             return Ok(new BotOutputViewModel(bot));
         }
 
+        // PATCH api/v1/chatbot/{url}:8}
+        /// <summary>
+        /// Patch your bot
+        /// </summary>
+        /// <param name="url">Bot's unique URL</param>
+        /// <param name="patch">Patch to apply</param>
+        /// <returns>Nothing</returns>
+        /// <response code="200">Patched successfully</response>
+        /// <response code="401">This bot does not belong to you</response>
+        /// <response code="404">This bot does not exist</response>
+        [HttpPatch("{url:length(8)}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> PatchBot( [FromRoute] string url, [FromBody] ChatBotPatchViewModel patch)
+        {
+            var user = await GetCurrentUser();
+            if(user == null) return Unauthorized();
+            var creator = await _users.GetCreator(user);
+            if(creator == null) return Forbid();
+            var bot = await _bots.GetByUrl(url);
+            if(bot == null) return NotFound();
+            if(bot.AuthorId != creator.Id) return Forbid();
+            patch.Patch(ref bot);
+            await _bots.Update(bot);
+            return Ok();
+        }
+
         // GET api/v1/chatbot/my
         /// <summary>
         /// List chatbots that belong to this user
         /// </summary>
         /// <returns>A list of bots</returns>
         /// <response code="200">My bots</response>
-        /// <response code="401">Not logged in or this user can't have bots</response>
+        /// <response code="403">Not logged in or this user can't have bots</response>
         [HttpGet("my")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<ActionResult<ListBotOutputViewModel>> GetMine()
         {
             var user = await GetCurrentUser();
             if(user == null)
-                return Forbid();
+                return Unauthorized();
             var creator = await _users.GetCreator(user);
             if(creator == null)
                 return Forbid();
