@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
@@ -18,27 +17,6 @@ namespace App.chatbot.API.Services
             _context = context;
         }
 
-        public static async Task<ChatBot> FromViewModel(NewChatBotInputViewModel newBot, CreatorUser creator)
-        {
-            // Initialize questions
-            List<Question> questions = new List<Question>();
-
-            foreach(var q in newBot.Questions)
-            {
-                questions.Add(new Question { Text = q.Question, Value = q.SerializedValue() });
-            }
-
-            var rng = new Random();
-            var url = rng.Next().ToString("x8"); // Will generate hex strings 8 chars in length
-
-            // Make the bot
-            return new ChatBot {
-                Name = newBot.Name,
-                AuthorId = creator.Id,
-                Questions = questions,
-                Url = url
-            };
-        }
 
         public async Task<IEnumerable<ChatBot>> GetForUser(CreatorUser creator)
         {
@@ -68,13 +46,11 @@ namespace App.chatbot.API.Services
         public async Task Create(ChatBot bot)
         {
             var result = await _context.Bots.AddAsync(bot);
-            await _context.SaveChangesAsync();
         }
 
         public async Task Delete(ChatBot bot)
         {
             _context.Bots.Remove(bot);
-            await _context.SaveChangesAsync();
         }
 
         public async Task Delete(string botId)
@@ -86,13 +62,17 @@ namespace App.chatbot.API.Services
         public async Task Update(ChatBot bot)
         {
             var result = _context.Bots.Update(bot);
-            await _context.SaveChangesAsync();
         }
 
         public async Task Update(string botId, ChatBot bot)
         {
             bot.Id = botId;
             await Update(bot);
+        }
+
+        public async Task SaveChanges()
+        {
+            await _context.SaveChangesAsync();
         }
 
     }
