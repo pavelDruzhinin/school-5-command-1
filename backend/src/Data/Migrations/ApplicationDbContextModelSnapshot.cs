@@ -127,9 +127,10 @@ namespace chatbot.Data.Migrations
 
                     b.Property<string>("BotId");
 
-                    b.Property<string>("Value");
+                    b.Property<string>("Text");
 
-                    b.Property<string>("Variants");
+                    b.Property<string>("Value")
+                        .HasColumnType("jsonb");
 
                     b.HasKey("Id");
 

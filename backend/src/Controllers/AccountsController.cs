@@ -68,7 +68,7 @@ namespace App.chatbot.API.Controllers
         {
             var user = await GetCurrentUser();
             if(user == null)
-                return Forbid("Not logged in");
+                return Unauthorized();
             return await Task.FromResult(user.UserName);
         }
 

@@ -8,13 +8,16 @@ namespace App.chatbot.API.Models.ViewModels
     public class BotOutputViewModel
     {
         public string Name { get; set; }
+
+        public string Url { get; set; }
         
         public IEnumerable<QuestionOutputViewModel> Questions { get; set; }
 
         public BotOutputViewModel(ChatBot bot)
         {
             Name = bot.Name;
-            Questions = bot.Questions.Select(q => new QuestionOutputViewModel(q));
+            Url = bot.Url;
+            Questions = bot.Questions?.Select(q => new QuestionOutputViewModel(q));
         }
     }
 }
