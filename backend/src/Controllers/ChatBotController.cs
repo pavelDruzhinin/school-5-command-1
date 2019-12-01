@@ -5,7 +5,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using App.chatbot.API.Authentication;
@@ -18,6 +18,7 @@ namespace App.chatbot.API.Controllers
 {
     [ApiController]
     [Authorize(Policy = "ApiUser")]
+    [Produces("application/json")]
     [Route("api/v1/[controller]")]
     public class ChatBotController : ControllerBase
     {
@@ -30,16 +31,39 @@ namespace App.chatbot.API.Controllers
             _users = users;
         }
 
+        // POST api/v1/chatbot/add
+        /// <summary>
+        /// Add a new chat bot belonging to current user
+        /// </summary>
+        /// <remarks>
+        /// Sample request 
+        /// 
+        ///     POST /api/v1/chatbot/add
+        ///     {
+        ///         "Name": "Testbot",
+        ///         "Questions": [
+        ///             { "Question": "Who are you?", "Variants": [] },
+        ///             { "Question": "What is your pet?", "Variants": [ "Cat", "Dog" ] }
+        ///         ]
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="newBot"></param>
+        /// <returns>Nothing</returns>
+        /// <response code="200">New bot is successfully added</response>
+        /// <response code="401">Not logged in or this user can't add bots</response>
         [HttpPost("add")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Add(NewChatBotInputViewModel newBot)
         {
-            var usr = await GetCurrentUser();
-            var user = await _users.GetCreator(usr);
+            var user = await GetCurrentUser();
             if(user == null)
-            {
-                return Forbid();
-            }
-            var bot = await ChatBotService.FromViewModel(newBot, user);
+                return Forbid("Not logged in");
+            var creator = await _users.GetCreator(user);
+            if(creator == null)
+                return Forbid("Not a creator");
+            var bot = await ChatBotService.FromViewModel(newBot, creator);
             if(bot == null)
             {
                 throw new System.NullReferenceException("Could not create a new bot");
@@ -48,14 +72,28 @@ namespace App.chatbot.API.Controllers
             return Ok();
         }
 
-        [HttpGet("listmine")]
-        public async Task<IEnumerable<ListBotOutputViewModel>> GetMine()
+        // GET api/v1/chatbot/my
+        /// <summary>
+        /// List chatbots that belong to this user
+        /// </summary>
+        /// <returns>A list of bots</returns>
+        /// <response code="200">My bots</response>
+        /// <response code="401">Not logged in or this user can't have bots</response>
+        [HttpGet("my")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<ListBotOutputViewModel>> GetMine()
         {
             var user = await GetCurrentUser();
+            if(user == null)
+                return Forbid("Not logged in");
             var creator = await _users.GetCreator(user);
+            if(creator == null)
+                return Forbid("Not a creator");
             var bots = await _bots.GetForUser(creator);
-            var output = bots.Select(b => new ListBotOutputViewModel(b));
-            return output;
+            var botsView = bots.Select(b => new BotOutputViewModel(b));
+            var output = new ListBotOutputViewModel { Bots = botsView };
+            return Ok(output);
         }
 
         private async Task<ApplicationUser> GetCurrentUser()
