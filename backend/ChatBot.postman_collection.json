@@ -133,7 +133,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjMmU3ZTA5My01OTE1LTQ0N2EtYjExYS1jNGQxMDA3ZTg1YzciLCJqdGkiOiJhNDMwZjI1YS0wMjdhLTQ3NDYtYjFlOS04MTFlMzdjZjBlZDYiLCJpYXQiOjE1NzUxMjE5NzgsInJvbCI6ImFwaV9hY2Nlc3MiLCJpZCI6ImMyZTdlMDkzLTU5MTUtNDQ3YS1iMTFhLWM0ZDEwMDdlODVjNyIsIm5iZiI6MTU3NTEyMTk3OCwiZXhwIjoxNTc1MjA4Mzc4LCJpc3MiOiJUaGlzIGFwcCIsImF1ZCI6ImV2ZXJ5b25lIn0.ZbR9Z1pWBaVskHByuhu6H5LLy6hDFMTpWchvxPPY15A",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjMmU3ZTA5My01OTE1LTQ0N2EtYjExYS1jNGQxMDA3ZTg1YzciLCJqdGkiOiJmNDhjYjgzNy00MDVlLTRiMjQtOTdlZC01NTJmZWY3MjlhYTEiLCJpYXQiOjE1NzUyMjY0MzEsInJvbCI6ImFwaV9hY2Nlc3MiLCJpZCI6ImMyZTdlMDkzLTU5MTUtNDQ3YS1iMTFhLWM0ZDEwMDdlODVjNyIsIm5iZiI6MTU3NTIyNjQzMSwiZXhwIjoxNTc1MzEyODMxLCJpc3MiOiJUaGlzIGFwcCIsImF1ZCI6ImV2ZXJ5b25lIn0.sjdVq9oUIhDjYl3iufkLjOEvFNS3iZ7PfAKke5SvVIc",
 									"type": "string"
 								}
 							]
@@ -149,7 +149,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"Name\": \"Testbot\",\n\t\"Questions\": [\n\t\t{ \"Question\": \"Who are you?\", \"Variants\": [] },\n\t\t{ \"Question\": \"What is your pet?\", \"Variants\": [\"Cat\", \"Dog\"] }\n\t]\n}",
+							"raw": "{\n\t\"Name\": \"Newbot\",\n\t\"Questions\": [\n\t\t{ \"Question\": \"What\", \"Variants\": [] },\n\t\t{ \"Question\": \"Which\", \"Variants\": [\"Cat\", \"Dog\"] }\n\t]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -174,14 +174,14 @@
 					"response": []
 				},
 				{
-					"name": "List my bots",
+					"name": "Get a bot",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjMmU3ZTA5My01OTE1LTQ0N2EtYjExYS1jNGQxMDA3ZTg1YzciLCJqdGkiOiJhNDMwZjI1YS0wMjdhLTQ3NDYtYjFlOS04MTFlMzdjZjBlZDYiLCJpYXQiOjE1NzUxMjE5NzgsInJvbCI6ImFwaV9hY2Nlc3MiLCJpZCI6ImMyZTdlMDkzLTU5MTUtNDQ3YS1iMTFhLWM0ZDEwMDdlODVjNyIsIm5iZiI6MTU3NTEyMTk3OCwiZXhwIjoxNTc1MjA4Mzc4LCJpc3MiOiJUaGlzIGFwcCIsImF1ZCI6ImV2ZXJ5b25lIn0.ZbR9Z1pWBaVskHByuhu6H5LLy6hDFMTpWchvxPPY15A",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjMmU3ZTA5My01OTE1LTQ0N2EtYjExYS1jNGQxMDA3ZTg1YzciLCJqdGkiOiJmNDhjYjgzNy00MDVlLTRiMjQtOTdlZC01NTJmZWY3MjlhYTEiLCJpYXQiOjE1NzUyMjY0MzEsInJvbCI6ImFwaV9hY2Nlc3MiLCJpZCI6ImMyZTdlMDkzLTU5MTUtNDQ3YS1iMTFhLWM0ZDEwMDdlODVjNyIsIm5iZiI6MTU3NTIyNjQzMSwiZXhwIjoxNTc1MzEyODMxLCJpc3MiOiJUaGlzIGFwcCIsImF1ZCI6ImV2ZXJ5b25lIn0.sjdVq9oUIhDjYl3iufkLjOEvFNS3iZ7PfAKke5SvVIc",
 									"type": "string"
 								}
 							]
@@ -189,7 +189,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:5001/api/v1/chatbot/listmine",
+							"raw": "https://localhost:5001/api/v1/chatbot/my",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -199,7 +199,39 @@
 								"api",
 								"v1",
 								"chatbot",
-								"listmine"
+								"my"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a bot",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjMmU3ZTA5My01OTE1LTQ0N2EtYjExYS1jNGQxMDA3ZTg1YzciLCJqdGkiOiJmNDhjYjgzNy00MDVlLTRiMjQtOTdlZC01NTJmZWY3MjlhYTEiLCJpYXQiOjE1NzUyMjY0MzEsInJvbCI6ImFwaV9hY2Nlc3MiLCJpZCI6ImMyZTdlMDkzLTU5MTUtNDQ3YS1iMTFhLWM0ZDEwMDdlODVjNyIsIm5iZiI6MTU3NTIyNjQzMSwiZXhwIjoxNTc1MzEyODMxLCJpc3MiOiJUaGlzIGFwcCIsImF1ZCI6ImV2ZXJ5b25lIn0.sjdVq9oUIhDjYl3iufkLjOEvFNS3iZ7PfAKke5SvVIc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/api/v1/chatbot/2f07af6a",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"v1",
+								"chatbot",
+								"2f07af6a"
 							]
 						}
 					},

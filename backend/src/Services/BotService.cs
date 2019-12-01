@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace App.chatbot.API.Services
 {
     public class ChatBotService
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public ChatBotService(ApplicationDbContext context)
         {
@@ -27,11 +28,15 @@ namespace App.chatbot.API.Services
                 questions.Add(new Question { Value = q.Question, Variants = string.Join(";", q.Variants) });
             }
 
+            var rng = new Random();
+            var url = rng.Next().ToString("x8"); // Will generate hex strings up to 8 chars in length
+
             // Make the bot
             return new ChatBot {
                 Name = newBot.Name,
                 AuthorId = creator.Id,
-                Questions = questions
+                Questions = questions,
+                Url = url
             };
         }
 
@@ -53,6 +58,8 @@ namespace App.chatbot.API.Services
         public async Task<ChatBot> GetByUrl(string url)
         {
             var bot = _context.Bots
+                        .Include(x => x.Author)
+                        .Include(x => x.Questions)
                         .Where(x => x.Url == url)
                         .First();
             return bot;

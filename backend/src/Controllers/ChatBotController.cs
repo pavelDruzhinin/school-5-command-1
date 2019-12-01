@@ -69,7 +69,30 @@ namespace App.chatbot.API.Controllers
                 throw new System.NullReferenceException("Could not create a new bot");
             }
             await _bots.Create(bot);
-            return Ok();
+            return CreatedAtRoute(
+                routeName: "GetByUrl",
+                routeValues: new { url = bot.Url },
+                value: new BotOutputViewModel(bot)
+            );
+        }
+
+        // GET api/v1/chatbot/[url]
+        /// <summary>
+        /// Access a chat bot by its unique url
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns>A chat bot instance</returns>
+        /// <response code="200">The requested chat bot</response>
+        /// <response code="404">Bot withthis url is not found</response>
+        [HttpGet("{url:length(8)}", Name = "GetByUrl")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<BotOutputViewModel>> GetByUrl( [FromRoute] string url )
+        {
+            var bot = await _bots.GetByUrl(url);
+            if(bot == null)
+                return NotFound();
+            return Ok(new BotOutputViewModel(bot));
         }
 
         // GET api/v1/chatbot/my
