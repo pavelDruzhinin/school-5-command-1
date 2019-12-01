@@ -155,7 +155,7 @@ import axios from 'axios';
     },
     submit() {
       if(this.$refs.form.validate()) {
-        this. items.push(this.Quest);
+        this.posts.push([101,2,this.Quest,3]);
         this.$refs.form.reset();
       }
     },
