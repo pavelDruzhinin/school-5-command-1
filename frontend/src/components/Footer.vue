@@ -7,14 +7,14 @@
                 justify="center"
                 no-gutters
         >
-            <router-link to="/polls" style="text-decoration: none; color: white">
+            <router-link to="/bots" style="text-decoration: none; color: white">
             <v-btn
                     color="white"
                     text
                     rounded
                     class="my-2"
             >
-                All polls
+                Chatbots
             </v-btn>
             </router-link>
             <router-link to="/admin" style="text-decoration: none; color: white">
