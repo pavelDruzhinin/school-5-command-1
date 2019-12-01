@@ -24,6 +24,16 @@
         <v-icon dark>mdi-plus</v-icon>
       </v-btn>
         <v-card-text> Add Question</v-card-text>
+    <v-btn 
+     class="ml-5"
+     small 
+     fab 
+     dark   
+     color="success">
+     <v-icon dark>mdi-checkbox-marked-circle</v-icon>
+    </v-btn>
+    <v-card-text>Submit</v-card-text>
+
 
     </v-card-actions>
 
