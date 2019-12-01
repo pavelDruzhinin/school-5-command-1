@@ -9,10 +9,10 @@
 
           <v-flex mb-4>
             <h1 class="display-2 font-weight-bold mb-3">
-              Welcome to POLLs
+              Welcome to Chatbots APP
             </h1>
             <p class="subheading font-weight-regular">
-              Service to manage your polls in one place
+              Service to manage your bots in one place
             </p>
             <v-layout row class="text-xs-center"
                       text-center
@@ -59,7 +59,7 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" md="12">
-                    Sign UP or login in polls
+                    Sign UP or login in App
                   </v-col>
                 </v-row>
               </v-container>
@@ -80,12 +80,12 @@
                 >
                   mdi-view-grid-plus-outline
                 </v-icon>
-                <h2 class="headline white--text font-weight-light">Add your subs</h2>
+                <h2 class="headline white--text font-weight-light">Add your bots</h2>
               </v-card-title>
               <v-container>
                 <v-row>
                   <v-col cols="12" md="12">
-                    Take polls from different companies
+                    Or start conversation with bots
                   </v-col>
                 </v-row>
               </v-container>

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from "./src/components/Index"
-import Polls from "./src/components/Polls"
+import ChatBots from "./src/components/ChatBots"
 import Admin from "./src/components/Admin"
 import Test from "./src/components/Test"
 import EditPoll from "./src/components/EditPoll"
@@ -18,9 +18,9 @@ export default new Router({
             component: Index
         },
         {
-            path: '/polls/',
-            name: 'polls',
-            component: Polls,
+            path: '/bots/',
+            name: 'chatbots',
+            component: ChatBots,
             props: true,
         },
         {
