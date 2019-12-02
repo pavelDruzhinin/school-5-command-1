@@ -25,7 +25,7 @@ namespace App.chatbot.API.Models.ViewModels
 
             foreach(var q in Questions)
             {
-                questions.Add(new Question { Text = q.Question, Value = q.SerializedValue() });
+                questions.Add(q.ToQuestion());
             }
 
             var rng = new Random();

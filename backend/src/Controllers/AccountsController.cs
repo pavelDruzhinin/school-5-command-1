@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using System.Linq;
@@ -63,6 +64,7 @@ namespace App.chatbot.API.Controllers
         /// <returns>Current user's username</returns>
         /// <response code="200">Returns the username</response>
         /// <response code="401">User not logged in</response>
+        [Authorize]
         [HttpGet("current")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -82,11 +84,12 @@ namespace App.chatbot.API.Controllers
         /// <response code="200">My bots</response>
         /// <response code="401">Not logged in</response>
         /// <response code="403">This user can't have bots</response>
+        [Authorize]
         [HttpGet("mybots")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult<ListBotOutputViewModel>> GetMine()
+        public async Task<ActionResult<IEnumerable<BotOutputViewModel>>> GetMine()
         {
             var user = await GetCurrentUser();
             if(user == null)
@@ -96,8 +99,7 @@ namespace App.chatbot.API.Controllers
                 return Forbid();
             var bots = await _bots.GetForUser(creator);
             var botsView = bots.Select(b => new BotOutputViewModel(b));
-            var output = new ListBotOutputViewModel { Bots = botsView };
-            return Ok(output);
+            return Ok(botsView);
         }
 
         private async Task<ApplicationUser> GetCurrentUser()

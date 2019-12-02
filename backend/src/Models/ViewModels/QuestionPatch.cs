@@ -5,18 +5,23 @@ using Newtonsoft.Json;
 
 namespace App.chatbot.API.Models.ViewModels
 {
-    public class QuestionInputViewModel
+    public class QuestionPatchViewModel
     {
-        [Required(AllowEmptyStrings=false)]
-        [DisplayFormat(ConvertEmptyStringToNull=false)]
-        [MinLength(1)]
         public string Text { get; set; }
         
         public object Value { get; set; }
 
-        public Question ToQuestion()
+        public void Patch(ref Question question)
         {
-            return new Question { Text = Text, Value = SerializedValue() };
+            if(Text != null)
+            {
+                question.Text = Text;
+            }
+
+            if(Value != null)
+            {
+                question.Value = SerializedValue();
+            }
         }
 
         public string SerializedValue()

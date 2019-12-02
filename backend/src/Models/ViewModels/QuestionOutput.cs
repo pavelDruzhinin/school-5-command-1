@@ -7,7 +7,7 @@ namespace App.chatbot.API.Models.ViewModels
 {
     public class QuestionOutputViewModel
     {
-        public string Question { get; set; }
+        public string Text { get; set; }
         
         public object Value { get; set; }
 
@@ -15,7 +15,7 @@ namespace App.chatbot.API.Models.ViewModels
         {
             var serializer = new JsonSerializer();
             
-            Question = question.Text;
+            Text = question.Text;
 
             using(var strReader = new StringReader(question.Value))
             using(var jsonReader = new JsonTextReader(strReader))

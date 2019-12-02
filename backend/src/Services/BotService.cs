@@ -27,6 +27,15 @@ namespace App.chatbot.API.Services
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<ChatBot>> GetAll()
+        {
+            var bots = await _context.Bots
+                            .Include(x => x.Author)
+                            .Include(x => x.Questions)
+                            .ToListAsync();
+            return bots;
+        }
+
         public async Task<ChatBot> GetById(string botId)
         {
             var bot = await _context.Bots.FindAsync(botId);
@@ -41,6 +50,12 @@ namespace App.chatbot.API.Services
                         .Where(x => x.Url == url)
                         .First();
             return bot;
+        }
+
+        public async Task InsertQuestion(ChatBot bot, Question question, int index)
+        {
+            bot.Questions.Insert(index, question);
+            await Update(bot);
         }
 
         public async Task Create(ChatBot bot)
@@ -59,6 +74,30 @@ namespace App.chatbot.API.Services
             await Delete(bot);
         }
 
+        public async Task DeleteQuestion(ChatBot bot, int index)
+        {
+            var question = bot.Questions[index];
+            await DeleteQuestion(bot, question);
+        }
+
+        public async Task DeleteQuestion(ChatBot bot, Question question)
+        {
+            bot.Questions.Remove(question);
+            await Update(bot);
+        }
+
+        public async Task UpdateQuestions(ChatBot bot, IEnumerable<Question> questions)
+        {
+            bot.Questions = questions.ToList();
+            await Update(bot);
+        }
+
+        public async Task UpdateQuestion(ChatBot bot, int index, Question question)
+        {
+            bot.Questions[index] = question;
+            await Update(bot);
+        }
+
         public async Task Update(ChatBot bot)
         {
             var result = _context.Bots.Update(bot);
@@ -68,6 +107,11 @@ namespace App.chatbot.API.Services
         {
             bot.Id = botId;
             await Update(bot);
+        }
+
+        public async Task<bool> BelongsToCreator(ChatBot bot, CreatorUser creator)
+        {
+            return bot.AuthorId.Equals(creator.Id);
         }
 
         public async Task SaveChanges()

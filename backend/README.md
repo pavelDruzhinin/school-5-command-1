@@ -14,6 +14,9 @@
 
 Создать докер контейнер для PostgreSql `docker run --name chatbot-postgres -d -v /tmp/chatbot/postgres/data:/var/lib/postgresql/data -p 5432:5432 postgres`
 
+После этого можно запускать и закрывать контейнер с помощью `docker start chatbot-postgres` и `docket stop chatbot-postgres`
+Данные сохраняются в папке `/tmp` так что они живут до перезагрузки системы.
+
 Загрузить архитектуру EntityFramework в базу данных `dotnet ef database update`
 
 ## Environments
