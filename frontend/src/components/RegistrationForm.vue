@@ -81,6 +81,13 @@
                         >
                             Next
                         </v-btn>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                                color="indigo"
+                                @click="reset()"
+                               >
+                            Close
+                        </v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -103,5 +110,10 @@
                 }
             },
         },
+        methods: {
+            reset () {
+                this.$refs.form.reset();
+            },
+        }
     }
 </script>
