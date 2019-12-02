@@ -24,10 +24,12 @@ namespace App.chatbot.API.Controllers
     [Route("api/v1/[controller]")]
     public class AccountsController : ControllerBase
     {
+        private readonly ChatBotService _bots;
         private readonly UserService _users;
 
-        public AccountsController(UserService users)
+        public AccountsController(ChatBotService bots, UserService users)
         {
+            _bots = bots;
             _users = users;
         }
 
@@ -70,6 +72,32 @@ namespace App.chatbot.API.Controllers
             if(user == null)
                 return Unauthorized();
             return await Task.FromResult(user.UserName);
+        }
+
+        // GET api/v1/accounts/mybots
+        /// <summary>
+        /// List chatbots that belong to this user
+        /// </summary>
+        /// <returns>A list of bots</returns>
+        /// <response code="200">My bots</response>
+        /// <response code="401">Not logged in</response>
+        /// <response code="403">This user can't have bots</response>
+        [HttpGet("mybots")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<ActionResult<ListBotOutputViewModel>> GetMine()
+        {
+            var user = await GetCurrentUser();
+            if(user == null)
+                return Unauthorized();
+            var creator = await _users.GetCreator(user);
+            if(creator == null)
+                return Forbid();
+            var bots = await _bots.GetForUser(creator);
+            var botsView = bots.Select(b => new BotOutputViewModel(b));
+            var output = new ListBotOutputViewModel { Bots = botsView };
+            return Ok(output);
         }
 
         private async Task<ApplicationUser> GetCurrentUser()

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -198,7 +197,7 @@ namespace chatbot.Data.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     BotId = table.Column<string>(nullable: true),
-                    Answers = table.Column<List<string>>(nullable: true),
+                    Answers = table.Column<string[]>(type: "jsonb[]", nullable: true),
                     DateAdded = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>

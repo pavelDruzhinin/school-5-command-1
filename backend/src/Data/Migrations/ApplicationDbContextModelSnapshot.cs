@@ -75,7 +75,8 @@ namespace chatbot.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<List<string>>("Answers");
+                    b.Property<List<string>>("Answers")
+                        .HasColumnType("jsonb[]");
 
                     b.Property<string>("BotId");
 
