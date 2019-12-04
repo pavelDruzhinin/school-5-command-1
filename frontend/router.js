@@ -5,6 +5,7 @@ import ChatBots from "./src/components/ChatBots"
 import Admin from "./src/components/Admin"
 import Test from "./src/components/Test"
 import EditPoll from "./src/components/EditPoll"
+import CardChat from "./src/components/CardChat"
 
 Vue.use(Router);
 
@@ -40,6 +41,12 @@ export default new Router({
             path: '/editpoll/',
             name: 'editpoll',
             component: EditPoll,
+            props: true,
+        },
+        {
+            path: '/cardchat/',
+            name: 'cardchat',
+            component: CardChat,
             props: true,
         }
     ]

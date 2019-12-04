@@ -7,26 +7,34 @@
 
   
             <!--Карточка1 - Яндекс-->
-        <section class="ma-5 mt-10">
+        <section class="ma-5 mt-10"  >
         <v-hover>
                 <template v-slot="{ hover }">
                 <v-card
                         class=" p-3"
                         max-width="400"
-                        :elevation="hover ? 24 : 1"    
+                        :elevation="hover ? 24 : 1" 
+                        
                 >
+                 <v-icon  color="green" class="ma-3" style="position: absolute;  z-index: 1; "  medium large>
+                     mdi-checkbox-marked
+                    </v-icon>
+                  
                     <v-img
                             class="white--text align-end"
+                            
                             height="200px"
                             src="https://avatars.mds.yandex.net/get-pdb/1626505/accb297d-7c01-405e-a97d-82c4c5abbadf/s1200?webp=false"
                     >
+                    
                     <!--   <v-card-title>Top 10 Australian beaches</v-card-title>-->
                     </v-img>
+                    
 
-                    <v-card-subtitle class="pb-0">Yandex.Inc</v-card-subtitle>
+                    <v-card-subtitle class="pb-0">Yandex.Inc </v-card-subtitle>
 
                     <v-card-text class=" pb-0">
-                        <div ><h3 class="text--primary">Yandex Academic Supervision Program{{post.title}}/h3></div>
+                        <div ><h3 class="text--primary">Yandex Academic Supervision Program</h3></div>
                         <!--<div v-for="post in posts" :key="post"><p>{{post.id}}</p></div>-->
                         <div >Moscow &#183; Python, C++ &#183; Specialist</div>
                     </v-card-text>
@@ -198,7 +206,7 @@
         </section>  
 
 
-            <!--Карточка6 - Близзард-->
+            <!--Карточка6 - intel-->
         <section class="ma-5 mt-10">
         <v-hover>
                 <template v-slot="{ hover }">
@@ -260,7 +268,7 @@
                     <v-card-subtitle class="pb-0">Dvp.soft</v-card-subtitle>
 
                     <v-card-text class=" pb-0">
-                        <div><h3 class="text--primary">Senior Software Engineer, Gameplay</h3></div>
+                        <div><h3 class="text--primary"></h3></div>
                         <div class="pb-0">Petrozavodsk &#183; Html, Css, Vue.js, React  &#183; Junior</div>
                     </v-card-text>
 
