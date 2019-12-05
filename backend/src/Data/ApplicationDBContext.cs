@@ -14,7 +14,7 @@ using Serilog;
 
 namespace App.chatbot.API.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         IDatabaseSettings _settings;
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)

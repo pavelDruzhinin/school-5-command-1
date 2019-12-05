@@ -81,7 +81,7 @@ namespace App.chatbot.API
             services.AddSingleton<IJwtFactory, JwtFactory>();
 
             // add Identity
-            var builder = services.AddIdentityCore<ApplicationUser>(o =>
+            var builder = services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
             {
                 // configure identity options
                 o.Password.RequireDigit = false;
@@ -90,8 +90,10 @@ namespace App.chatbot.API
                 o.Password.RequireNonAlphanumeric = false;
                 o.Password.RequiredLength = 6;
             });
-            builder = new IdentityBuilder(builder.UserType, typeof(ApplicationRole), builder.Services);
-            builder.AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+            // builder = new IdentityBuilder(builder.UserType, typeof(ApplicationRole), builder.Services);
+            builder .AddRoles<ApplicationRole>()
+                    .AddEntityFrameworkStores<ApplicationDbContext>()
+                    .AddDefaultTokenProviders();
 
             services.AddAuthentication(x =>
             {
@@ -132,7 +134,7 @@ namespace App.chatbot.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider services)
         {
             // loggerFactory.AddSerilog();
             if (env.IsDevelopment())
@@ -160,6 +162,10 @@ namespace App.chatbot.API
             app.UseAuthentication();
             app.UseSerilogRequestLogging();
             app.UseMvc();
+
+            Seed.SeedRoles(services).Wait();
+            Seed.SeedAdmin(services).Wait();
+            if(env.IsDevelopment()) Seed.SeedTestUser(services).Wait();
         }
     }
 }
