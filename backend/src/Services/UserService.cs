@@ -17,13 +17,15 @@ namespace App.chatbot.API.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _users;
+        private readonly RoleManager<ApplicationRole> _roles;
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
 
-        public UserService(ApplicationDbContext context, UserManager<ApplicationUser> users, IJwtFactory jwtFactory, JwtIssuerOptions jwtOptions)
+        public UserService(ApplicationDbContext context, UserManager<ApplicationUser> users, RoleManager<ApplicationRole> roles, IJwtFactory jwtFactory, JwtIssuerOptions jwtOptions)
         {
             _context = context;
             _users = users;
+            _roles = roles;
             _jwtFactory = jwtFactory;
             _jwtOptions = jwtOptions;
         }
@@ -62,6 +64,9 @@ namespace App.chatbot.API.Services
 
             if (!result.Succeeded) return result;
 
+            await _users.AddToRoleAsync(userIdentity, ApplicationRoles.User);
+            await _users.AddToRoleAsync(userIdentity, ApplicationRoles.Creator);
+
             // Add new user as Creator 
             await _context.Creators.AddAsync(new CreatorUser { IdentityId = userIdentity.Id });
             await _context.SaveChangesAsync();
@@ -89,6 +94,14 @@ namespace App.chatbot.API.Services
                     .Include(x => x.Identity)
                     .Where(predicate) // x => x.Identity.Id.Equals(user.Id)
                     .First();
+        }
+
+        public async Task<bool> HasClaimsTo(CreatorUser user, ChatBot bot)
+        {
+            if(await _users.IsInRoleAsync(user.Identity, ApplicationRoles.Admin))
+                return true;
+            
+            return user.Id.Equals(bot.AuthorId);
         }
     }
 }

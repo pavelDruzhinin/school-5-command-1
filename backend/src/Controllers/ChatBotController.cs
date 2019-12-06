@@ -156,7 +156,7 @@ namespace App.chatbot.API.Controllers
 
             var bot = await _bots.GetByUrl(url);
             if(bot == null) return NotFound();
-            if(bot.AuthorId != creator.Id) return Forbid();
+            if(!await _users.HasClaimsTo(creator, bot)) return Forbid();
 
             patch.Patch(ref bot);
             await _bots.Update(bot);
@@ -188,7 +188,7 @@ namespace App.chatbot.API.Controllers
 
             var bot = await _bots.GetByUrl(url);
             if(bot == null) return NotFound();
-            if(!await _bots.BelongsToCreator(bot, creator)) return Forbid();
+            if(!await _users.HasClaimsTo(creator, bot)) return Forbid();
 
             await _bots.Delete(bot);
             await _bots.SaveChanges();
@@ -269,7 +269,7 @@ namespace App.chatbot.API.Controllers
 
             var bot = await _bots.GetByUrl(url);
             if(bot == null) return NotFound();
-            if(!await _bots.BelongsToCreator(bot, creator)) return Forbid();
+            if(!await _users.HasClaimsTo(creator, bot)) return Forbid();
 
             if(index > bot.Questions.Count()) return BadRequest();
 
@@ -310,7 +310,7 @@ namespace App.chatbot.API.Controllers
 
             var bot = await _bots.GetByUrl(url);
             if(bot == null) return NotFound();
-            if(!await _bots.BelongsToCreator(bot, creator)) return Forbid();
+            if(!await _users.HasClaimsTo(creator, bot)) return Forbid();
 
             if(index >= bot.Questions.Count()) return BadRequest();
 
@@ -346,7 +346,7 @@ namespace App.chatbot.API.Controllers
 
             var bot = await _bots.GetByUrl(url);
             if(bot == null) return NotFound();
-            if(!await _bots.BelongsToCreator(bot, creator)) return Forbid();
+            if(!await _users.HasClaimsTo(creator, bot)) return Forbid();
 
             if(index >= bot.Questions.Count()) return BadRequest();
 

@@ -109,11 +109,6 @@ namespace App.chatbot.API.Services
             await Update(bot);
         }
 
-        public async Task<bool> BelongsToCreator(ChatBot bot, CreatorUser creator)
-        {
-            return bot.AuthorId.Equals(creator.Id);
-        }
-
         public async Task SaveChanges()
         {
             await _context.SaveChangesAsync();
