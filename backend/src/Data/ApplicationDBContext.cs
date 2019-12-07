@@ -24,6 +24,7 @@ namespace App.chatbot.API.Data
         public DbSet<Question> Questions { get; set; }
         public DbSet<ChatBot> Bots { get; set; }
         public DbSet<CreatorUser> Creators { get; set; }
+        public DbSet<ClientUser> Clients { get; set; }
 
     }
 }

@@ -25,11 +25,13 @@ namespace App.chatbot.API.Controllers
     {
         private readonly ChatBotService _bots;
         private readonly UserService _users;
+        private readonly AnswerService _answers;
 
-        public ChatBotController(ChatBotService bots, UserService users)
+        public ChatBotController(ChatBotService bots, UserService users, AnswerService answers)
         {
             _bots = bots;
             _users = users;
+            _answers = answers;
         }
 
         // POST api/v1/chatbot/add
@@ -355,6 +357,43 @@ namespace App.chatbot.API.Controllers
             await _bots.UpdateQuestion(bot, index, question);
             await _bots.SaveChanges();
             return Ok();
+        }
+
+        [HttpPost("{url:length(8)}/answer")]
+        public async Task<IActionResult> AddAnswer( [FromRoute] string url, [FromBody] IEnumerable<AnswerInputViewModel> answerModel)
+        {
+            var user = await GetCurrentUser();
+            if(user == null) return Unauthorized();
+
+            var client = await _users.GetClient(user);
+            if(client == null) return Forbid();
+
+            var bot = await _bots.GetByUrl(url);
+            if(bot == null) return NotFound();
+
+            await _answers.Add(bot, client, answerModel);
+            await _bots.SaveChanges();
+
+            return Ok();
+        }
+
+        [HttpGet("{url:length(8)}/answers")]
+        public async Task<ActionResult<IEnumerable<AnswerOutputViewModel>>> GetAnswers( [FromRoute] string url)
+        {
+            var user = await GetCurrentUser();
+            if(user == null) return Unauthorized();
+
+            var creator = await _users.GetCreator(user);
+            if(creator == null) return Forbid();
+
+            var bot = await _bots.GetByUrl(url);
+            if(bot == null) return NotFound();
+            if(!await _users.HasClaimsTo(creator, bot)) return Forbid();
+
+            var answers = await _answers.GetForBot(bot);
+            var output = answers.Select(x => new AnswerOutputViewModel(x));
+
+            return Ok(output);
         }
 
         private async Task<ApplicationUser> GetCurrentUser()

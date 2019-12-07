@@ -85,7 +85,7 @@ namespace App.chatbot.API.Controllers
         /// <response code="401">Not logged in</response>
         /// <response code="403">This user can't have bots</response>
         [Authorize]
-        [HttpGet("mybots")]
+        [HttpGet("mybots", Name="ListMyBots")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]

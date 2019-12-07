@@ -67,8 +67,15 @@ namespace App.chatbot.API.Services
             await _users.AddToRoleAsync(userIdentity, ApplicationRoles.User);
             await _users.AddToRoleAsync(userIdentity, ApplicationRoles.Creator);
 
-            // Add new user as Creator 
-            await _context.Creators.AddAsync(new CreatorUser { IdentityId = userIdentity.Id });
+            // Add new user as Client
+            await _context.Clients.AddAsync(new ClientUser { IdentityId = userIdentity.Id });
+
+            if(model.AddCreator)
+            {
+                // Add new user as Creator 
+                await _context.Creators.AddAsync(new CreatorUser { IdentityId = userIdentity.Id });
+            }
+
             await _context.SaveChangesAsync();
 
             return result;
@@ -92,8 +99,26 @@ namespace App.chatbot.API.Services
 
             return _context.Creators
                     .Include(x => x.Identity)
+                    .Include(x => x.Bots)
                     .Where(predicate) // x => x.Identity.Id.Equals(user.Id)
-                    .First();
+                    .FirstOrDefault();
+        }
+
+        public async Task<ClientUser> GetClient(ApplicationUser user)
+        {
+            if(user == null)
+                return await Task.FromResult<ClientUser>(null);
+
+            System.Func<ClientUser, bool> predicate = (x) => {
+                if (x == null) throw new System.NullReferenceException("Client is null");
+                if (x.Identity == null) throw new System.MemberAccessException("Client is not connected to an identity");
+                return x.Identity.Id.Equals(user.Id);
+            };
+
+            return _context.Clients
+                    .Include(x => x.Identity)
+                    .Where(predicate)
+                    .FirstOrDefault();
         }
 
         public async Task<bool> HasClaimsTo(CreatorUser user, ChatBot bot)

@@ -13,12 +13,13 @@ namespace App.chatbot.API.Models
     {
         public string Id { get; set; }
 
-        // [ForeignKey("UserId")]
-        // public GuestUser User { get; set; } // navigational property 
-
         [ForeignKey("Bot")]
         public string BotId { get; set; }
         public ChatBot Bot { get; set; } // navigational property 
+
+        [ForeignKey("Client")]
+        public string ClientId { get; set; }
+        public ClientUser Client { get; set; } // navigational property 
 
         [Column(TypeName = "jsonb[]")]
         public List<string> Answers { get; set; }

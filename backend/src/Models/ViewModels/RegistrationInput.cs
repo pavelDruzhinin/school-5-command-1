@@ -17,5 +17,8 @@ namespace App.chatbot.API.Models.ViewModels
         [JsonProperty(Required = Required.DisallowNull)]
         [MinLength(6)]
         public string Password { get; set; }
+
+        [Required]
+        public bool AddCreator { get; set; }
     }
 }

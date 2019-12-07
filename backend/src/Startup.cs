@@ -117,6 +117,7 @@ namespace App.chatbot.API
 
             services.AddScoped<ChatBotService>();
             services.AddScoped<UserService>();
+            services.AddScoped<AnswerService>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
