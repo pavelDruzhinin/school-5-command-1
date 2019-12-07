@@ -6,6 +6,7 @@ import Admin from "./src/components/Admin"
 import Test from "./src/components/Test"
 import EditPoll from "./src/components/EditPoll"
 
+
 Vue.use(Router);
 
 export default new Router({
@@ -42,5 +43,6 @@ export default new Router({
             component: EditPoll,
             props: true,
         }
+
     ]
 })
