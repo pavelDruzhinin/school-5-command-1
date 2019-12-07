@@ -1,17 +1,6 @@
 <template>
     <div>
-        <ul v-if="posts && posts.length">
-            <li v-for="post in posts" :key="post">
-                <p><strong>{{post.title}}</strong></p>
-                <p>{{post.body}}</p>
-            </li>
-        </ul>
-
-        <ul v-if="errors && errors.length">
-            <li v-for="error in errors" :key="error">
-                {{error.message}}
-            </li>
-        </ul>
+        {{posts.components}}
     </div>
 </template>
 
@@ -25,7 +14,7 @@
         }),
 // Запрос после создания компонента
         created() {
-            axios.get(`https://jsonplaceholder.typicode.com/posts`)
+            axios.get(`https://localhost:5001/swagger/v1/swagger.json`)
                 .then(response => {
 // ответ json запихиваем в постс
                     this.posts = response.data;

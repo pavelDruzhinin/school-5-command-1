@@ -26,7 +26,7 @@
                     <v-card-subtitle class="pb-0">Yandex.Inc</v-card-subtitle>
 
                     <v-card-text class=" pb-0">
-                        <div ><h3 class="text--primary">Yandex Academic Supervision Program{{post.title}}/h3></div>
+                        <div ><h3 class="text--primary">Yandex Academic Supervision Program{{post.title}}</h3></div>
                         <!--<div v-for="post in posts" :key="post"><p>{{post.id}}</p></div>-->
                         <div >Moscow &#183; Python, C++ &#183; Specialist</div>
                     </v-card-text>

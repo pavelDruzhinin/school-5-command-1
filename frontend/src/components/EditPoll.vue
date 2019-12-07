@@ -64,7 +64,7 @@
                         </v-card-text>
                     </v-card>
                 </v-dialog>
-                <v-dialog v-model="redactPost" max-width="400px">
+                <v-dialog v-model="editPost" max-width="400px">
                     <v-card class="pt-10">
                         <v-card-text>
                             <v-form
@@ -86,7 +86,7 @@
                                         @click="redact()">Apply
                                 </v-btn>
                                 <v-btn color="indigo"
-                                       @click="reset();redactPost=false">Close
+                                       @click="reset();editPost=false">Close
                                 </v-btn>
                             </v-form>
                         </v-card-text>
@@ -105,7 +105,7 @@
                                 <v-btn text icon @click="deletePost(post.id)">
                                     <v-icon>mdi-delete</v-icon>
                                 </v-btn>
-                                <v-btn text icon @click="redactPost=!redactPost;dialogwrite(post.title,post.id)">
+                                <v-btn text icon @click="editPost=!editPost;dialogWrite(post.title,post.id)">
                                     <v-icon>mdi-pencil</v-icon>
                                 </v-btn>
                             </v-btn-toggle>
@@ -127,7 +127,7 @@
                 fab: false,
                 globalid: null,
                 dialog: false,
-                redactPost: false,
+                editPost: false,
                 message: null,
                 n: 0,
                 items: [],
@@ -180,7 +180,7 @@
                     }
                 }
             },
-            dialogwrite(str, num) {
+            dialogWrite(str, num) {
                 this.redQuest = str;
                 this.globalid = num;
             },
