@@ -10,30 +10,13 @@ namespace App.chatbot.API.Services
 {
     public class ChatBotService
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public ChatBotService(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public static async Task<ChatBot> FromViewModel(NewChatBotInputViewModel newBot, CreatorUser creator)
-        {
-            // Initialize questions
-            List<Question> questions = new List<Question>();
-
-            foreach(var q in newBot.Questions)
-            {
-                questions.Add(new Question { Value = q.Question, Variants = string.Join(";", q.Variants) });
-            }
-
-            // Make the bot
-            return new ChatBot {
-                Name = newBot.Name,
-                AuthorId = creator.Id,
-                Questions = questions
-            };
-        }
 
         public async Task<IEnumerable<ChatBot>> GetForUser(CreatorUser creator)
         {
@@ -53,6 +36,8 @@ namespace App.chatbot.API.Services
         public async Task<ChatBot> GetByUrl(string url)
         {
             var bot = _context.Bots
+                        .Include(x => x.Author)
+                        .Include(x => x.Questions)
                         .Where(x => x.Url == url)
                         .First();
             return bot;
@@ -61,13 +46,11 @@ namespace App.chatbot.API.Services
         public async Task Create(ChatBot bot)
         {
             var result = await _context.Bots.AddAsync(bot);
-            await _context.SaveChangesAsync();
         }
 
         public async Task Delete(ChatBot bot)
         {
             _context.Bots.Remove(bot);
-            await _context.SaveChangesAsync();
         }
 
         public async Task Delete(string botId)
@@ -85,6 +68,11 @@ namespace App.chatbot.API.Services
         {
             bot.Id = botId;
             await Update(bot);
+        }
+
+        public async Task SaveChanges()
+        {
+            await _context.SaveChangesAsync();
         }
 
     }

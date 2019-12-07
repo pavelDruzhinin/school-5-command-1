@@ -5,8 +5,6 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using App.chatbot.API.Authentication;
 using App.chatbot.API.Data;
 using App.chatbot.API.Models;
@@ -31,9 +29,9 @@ namespace App.chatbot.API.Services
         }
 
         
-        public async Task<string> GenerateJwt(ClaimsIdentity identity, string UserId)
+        public async Task<AuthOutputViewModel> GenerateJwt(ClaimsIdentity identity, string UserId)
         {
-            return await Tokens.GenerateJwt(identity, _jwtFactory, UserId, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
+            return await Tokens.GenerateJwt(identity, _jwtFactory, UserId, _jwtOptions);
         }
 
         public async Task<ClaimsIdentity> GetClaimsIdentity(string username, string password)
