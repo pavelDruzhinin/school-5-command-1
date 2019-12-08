@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace App.chatbot.API.Models
@@ -19,7 +20,7 @@ namespace App.chatbot.API.Models
 
         public string Text { get; set; }
 
-        [Column(TypeName = "jsonb")]
-        public string Value { get; set; }
+        [Column(TypeName="jsonb")]
+        public JsonDocument Value { get; set; }
     }
 }

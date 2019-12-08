@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace App.chatbot.API.Models
@@ -21,8 +22,8 @@ namespace App.chatbot.API.Models
         public string ClientId { get; set; }
         public ClientUser Client { get; set; } // navigational property 
 
-        [Column(TypeName = "jsonb[]")]
-        public string[] Answers { get; set; }
+        [Column(TypeName="jsonb[]")]
+        public List<JsonDocument> Answers { get; set; }
 
         public DateTime DateAdded { get; set; }
     }

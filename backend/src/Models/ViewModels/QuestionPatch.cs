@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace App.chatbot.API.Models.ViewModels
 {
@@ -9,7 +9,7 @@ namespace App.chatbot.API.Models.ViewModels
     {
         public string Text { get; set; }
         
-        public object Value { get; set; }
+        public JsonDocument Value { get; set; }
 
         public void Patch(ref Question question)
         {
@@ -20,18 +20,8 @@ namespace App.chatbot.API.Models.ViewModels
 
             if(Value != null)
             {
-                question.Value = SerializedValue();
+                question.Value = Value;
             }
-        }
-
-        public string SerializedValue()
-        {
-            var serializer = new JsonSerializer();
-            var strWriter = new StringWriter();
-            
-            serializer.Serialize(strWriter, Value);
-
-            return strWriter.ToString();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace App.chatbot.API.Models.ViewModels
                 bot.Questions.Clear();
                 foreach(var q in Questions)
                 {
-                    bot.Questions.Add(new Question { Text = q.Text, Value = q.SerializedValue() });
+                    bot.Questions.Add(new Question { Text = q.Text, Value = q.Value });
                 }
             }
         }
