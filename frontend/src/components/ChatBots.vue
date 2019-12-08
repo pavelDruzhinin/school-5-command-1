@@ -18,11 +18,11 @@
                                 :elevation="hover ? 24 : 1" 
                                 
                         >
-                    
-                        <v-icon  color="green" class="ma-3" style="position: absolute;  z-index: 1; "  medium large>
+                    <span v-bind:class="{'d-none': !post.canceled}">
+                        <v-icon  color="green"  class="pos"  medium large>
                             mdi-checkbox-marked
                             </v-icon>
-                        
+                    </span>  
                             <v-img
                                     class="white--text align-end"
                                     
@@ -377,6 +377,13 @@
     </div>
     
 </template>
+<style >
+.pos{
+    position: absolute;
+    z-index:1;
+    margin: 6px
+}
+</style>
 
 
 <script>
