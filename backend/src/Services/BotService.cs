@@ -44,12 +44,11 @@ namespace App.chatbot.API.Services
 
         public async Task<ChatBot> GetByUrl(string url)
         {
-            var bot = _context.Bots
+            return await _context.Bots
                         .Include(x => x.Author)
                         .Include(x => x.Questions)
                         .Where(x => x.Url == url)
-                        .First();
-            return bot;
+                        .FirstOrDefaultAsync();
         }
 
         public async Task InsertQuestion(ChatBot bot, Question question, int index)

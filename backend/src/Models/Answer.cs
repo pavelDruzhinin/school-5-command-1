@@ -22,7 +22,7 @@ namespace App.chatbot.API.Models
         public ClientUser Client { get; set; } // navigational property 
 
         [Column(TypeName = "jsonb[]")]
-        public List<string> Answers { get; set; }
+        public string[] Answers { get; set; }
 
         public DateTime DateAdded { get; set; }
     }

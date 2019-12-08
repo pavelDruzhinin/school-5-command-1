@@ -27,11 +27,13 @@ namespace App.chatbot.API.Controllers
     {
         private readonly ChatBotService _bots;
         private readonly UserService _users;
+        private readonly AnswerService _answers;
 
-        public AccountsController(ChatBotService bots, UserService users)
+        public AccountsController(ChatBotService bots, UserService users, AnswerService answers)
         {
             _bots = bots;
             _users = users;
+            _answers = answers;
         }
 
         // POST api/v1/accounts/register
@@ -68,12 +70,30 @@ namespace App.chatbot.API.Controllers
         [HttpGet("current")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<string>> Current() // TODO: Output view model
+        public async Task<ActionResult<AccountInfoOutputViewModel>> Current() // TODO: Output view model
         {
+            var output = new AccountInfoOutputViewModel();
+
             var user = await GetCurrentUser();
             if(user == null)
                 return Unauthorized();
-            return await Task.FromResult(user.UserName);
+            output.Username = user.UserName;
+
+            var creator = await _users.GetCreator(user);
+            if(creator != null)
+            {
+                var bots = await _bots.GetForUser(creator);
+                output.MyBots = bots.Select(x => x.Url);
+            }
+
+            var client = await _users.GetClient(user);
+            if(client != null)
+            {
+                var answers = await _answers.GetForUser(client);
+                output.AnsweredBots = answers.Select(x => x.Bot.Url);
+            }
+
+            return Ok(output);
         }
 
         // GET api/v1/accounts/mybots
