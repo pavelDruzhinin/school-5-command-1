@@ -9,10 +9,12 @@
                             
                         :elevation="hover ? 24 : 1"    
                 >
+                <div v-for="(post,index) in posts" :key="index">
+                    <div v-if="proId == post.botsid">
                     <v-img
                             class="white--text align-end"
                             height="250px"
-                            src="https://finalweapon.net/wp-content/uploads/2019/07/Blizzard-KV.jpg"
+                            :src="post.image"
                     >
                     <!--   <v-card-title>Top 10 Australian beaches</v-card-title>-->
                     </v-img>
@@ -42,12 +44,10 @@
 
                     <v-card>
                       
-                       <v-list-item
-                            v-for="post in posts"
-                            outlined
-                            :key="post">
+                       <v-list-item>
+                          
                         <v-list-item-content>
-                            <v-list-item-title><p>{{post.title}}</p></v-list-item-title>
+                            <v-list-item-title><p>привет</p></v-list-item-title>
                             <v-btn-toggle
                                     v-model="toggle_exclusive"
                                     class="mx-auto"
@@ -65,6 +65,8 @@
                         >
                             send
                         </v-btn>
+                           </div>
+                        </div>
                 </v-card>
                 </template>
             </v-hover>
@@ -73,17 +75,17 @@
 
 <script>
     import axios from 'axios';
-
     export default {
         data() {
-
             return {
+                proId:this.$route.params.Pid,
                 direction: 'bottom',
                 fab: false,
                 globalid: null,
                 dialog: false,
                 redactPost: false,
                 message: null,
+                show: true,
                 n: 0,
                 items: [],
                 posts: [],
@@ -95,13 +97,21 @@
             }
         },
         created() {
-            axios.get(`https://jsonplaceholder.typicode.com/posts`)
-                .then(response => {
-                    this.posts = response.data;
+      axios.get(`https://my-json-server.typicode.com/AlexanderPanshin/dpv.school/user`)
+      .then(response=> {
+        this.items= response.data;
+      })
+      .catch(error=> {
+        window.console.log(error);
+        this.errored=true;
                 })
-                .catch(error => {
-                    window.console.log(error);
-                    this.errored = true;
+      axios.get(`https://my-json-server.typicode.com/AlexanderPanshin/dpv.school/bots`)
+      .then(response=> {
+        this.posts= response.data;
+      })
+      .catch(error=> {
+        window.console.log(error);
+        this.errored=true;
                 })
         },
         
