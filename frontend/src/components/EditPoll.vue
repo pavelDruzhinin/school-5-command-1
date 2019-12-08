@@ -5,7 +5,7 @@
         <v-list-item three-line>
           <v-list-item-content>
             <v-img
-            :src=bots.imgbots
+            :src=bots.image
             class="mx-auto"
             max-width=90px>
             </v-img>
@@ -17,11 +17,19 @@
       width="10px"
       label="Avatar"
     ></v-file-input>  
-            <v-list-item-title class="headline mb-1"> <v-text-field clear-icon="mdi-close-circle" clearable :rules="formIsValid" v-model="botname"
-                  label="Bot name" type="text" @click:clear="clearMessage"></v-text-field></v-list-item-title>
+            <v-list-item-title class="headline mb-1"> <v-text-field clear-icon="mdi-close-circle" clearable :rules="formIsValid" v-model="title"
+                  label="Title:" type="text" @click:clear="clearMessage"></v-text-field></v-list-item-title>
             <v-list-item-subtitle>
-              <v-text-field clear-icon="mdi-close-circle" clearable :rules="formIsValid" v-model="botdesc"
-                  label="Bot description" type="text" @click:clear="clearMessage">
+              <v-text-field clear-icon="mdi-close-circle" clearable :rules="formIsValid" v-model="company"
+                  label="Company:" type="text" @click:clear="clearMessage"></v-text-field>
+                   <v-text-field clear-icon="mdi-close-circle" clearable :rules="formIsValid" v-model="position"
+                  label="Position:" type="text" @click:clear="clearMessage"></v-text-field>
+                   <v-text-field clear-icon="mdi-close-circle" clearable :rules="formIsValid" v-model="skills"
+                  label="Skills required:" type="text" @click:clear="clearMessage"></v-text-field>
+                  <v-text-field clear-icon="mdi-close-circle" clearable :rules="formIsValid" v-model="geo"
+                  label="Geo:" type="text" @click:clear="clearMessage"></v-text-field>
+              <v-text-field clear-icon="mdi-close-circle" clearable :rules="formIsValid" v-model="description"
+                  label="Description" type="text" @click:clear="clearMessage">
               </v-text-field>
             </v-list-item-subtitle>
             
@@ -74,17 +82,17 @@
 
 
         <v-list>
-          <v-list-item v-for="botspoll in bots.botspolls" :key="botspoll.pollsid">
+          <v-list-item v-for="question in bots.questions" :key="question.questions_id">
             <v-list-item-content>
               <v-list-item-title>
-                <p>{{botspoll.title}}</p>
+                <p>{{question.title}}</p>
               </v-list-item-title>
               <div class="text-center">
               <v-btn-toggle v-model="toggle_exclusive" class="mx-auto">
-                <v-btn text icon @click="deletePost(botspoll.pollsid)">
+                <v-btn text icon @click="deletePost(question.questions_id)">
                   <v-icon>mdi-delete</v-icon>
                 </v-btn>
-                <v-btn text icon @click="redactPost=!redactPost;dialogwrite(botspoll.title,botspoll.pollsid);">
+                <v-btn text icon @click="redactPost=!redactPost;dialogwrite(question.title,question.questions_id)">
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
               </v-btn-toggle>
@@ -120,11 +128,15 @@
         dialog: false,
         redactPost: false,
         message: null,
-        botname:null,
-        botdesc:null,
+        title:null,
+        description:null,
+        company:null,
+        position:null,
+        skills:null,
+        geo:null,
         n: 0,
         items: [],
-        bots: [{}],
+        bots: [],
         errors: [],
         redlabel: "",
         formIsValid: [
@@ -137,8 +149,13 @@
       axios.get(`https://my-json-server.typicode.com/AlexanderPanshin/dpv.school/bots`)
         .then(response => {
           this.bots = response.data[0];
-          this.botname = this.bots.botsname,
-          this.botdesc = this.bots.descriptionbots
+          this.title = this.bots.title,
+          this.description = this.bots.description,
+          this.company = this.bots.company,
+          this.geo = this.bots.geo,
+          this.skills = this.bots.skills,
+          this.position = this.bots.position
+
         })
         .catch(error => {
           window.console.log(error);
@@ -155,23 +172,18 @@
       },
       submit() {
         if (this.$refs.form.validate()) {
-          /* this.posts.push({
-            userId: "1",
-            id: this.posts.size,
-            title: this.Quest,
-            body: "2"
-          }) */
-          this.bots.botspolls.push ({
-            pollsid:this.bots.botspolls.size,
+          
+          this.bots.questions.push ({
+            questions_id:this.bots.questions.length+1,
             title:this.Quest
           });
           this.$refs.form.reset();
         }
       },
       deletePost(n) {
-        for (let i = 0; i <= this.bots.botspolls.length; i++) {
-          if (this.bots.botspolls[i].pollsid == n) {
-            this.bots.botspolls.splice(i, 1);
+        for (let i = 0; i <= this.bots.questions.length; i++) {
+          if (this.bots.questions[i].questions_id == n) {
+            this.bots.questions.splice(i, 1);
           }
         }
 
@@ -179,10 +191,10 @@
 
       redact() {
         if (this.$refs.form.validate()) {
-          for (let i = 0; i <= this.bots.botspolls.length; i++) {
-            if (this.bots.botspolls[i].pollsid == this.globalid) {
+          for (let i = 0; i <= this.bots.questions.length; i++) {
+            if (this.bots.questions[i].questions_id == this.globalid) {
 
-              this.bots.botspolls[i].title = this.redQuest;
+              this.bots.questions[i].title = this.redQuest;
             }
 
           }
