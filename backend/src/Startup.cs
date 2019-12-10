@@ -167,6 +167,7 @@ namespace App.chatbot.API
             Seed.SeedRoles(services).Wait();
             Seed.SeedAdmin(services).Wait();
             if(env.IsDevelopment()) Seed.SeedTestUser(services).Wait();
+            if (env.IsDevelopment()) Seed.SeedBots(services).Wait();
         }
     }
 }
