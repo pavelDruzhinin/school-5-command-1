@@ -14,6 +14,19 @@ services:
       - "traefik.port=80"
     networks:
       - web
+
+  chatbot1:
+    image: registry.dpvsoft.com/chatbot1:480
+    container_name: chatbot1
+    restart: always
+    labels:
+      - "traefik.docker.network=web"
+      - "traefik.enabled=true"
+      - "traefik.backend=chatbot1"
+      - "traefik.frontend.rule=Host:chatbot1.dpvsoft.com"
+      - "traefik.port=80"
+    networks:
+      - web
    
 networks:
   web:
