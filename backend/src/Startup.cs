@@ -58,7 +58,7 @@ namespace App.chatbot.API
             // services.Configure<DatabaseSettings>(options => options = dbSettings);
 
             services.AddDbContext<ApplicationDbContext>(options =>
-               options.UseNpgsql(_configuration.GetConnectionString("ApplicationDbContext")));
+               options.UseNpgsql(Configuration.GetConnectionString("ApplicationDbContext")));
 
             // services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options =>
             //     options
