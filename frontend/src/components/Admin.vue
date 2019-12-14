@@ -80,7 +80,7 @@
             },
     goTodetail (prodId) {
       let proId=prodId
-      this.$router.push({name: 'cardchat', params: {Pid: proId}})
+      this.$router.push({name: 'editpoll', params: {Pid: proId}})
     }
   }
     }

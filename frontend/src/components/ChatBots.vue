@@ -45,6 +45,7 @@
 
                             <v-card-actions>
                                 <v-btn
+                                @click="goTodetail(post.id)"
                                         color="cyan lighten-1"
                                         text
                                 >
@@ -157,6 +158,13 @@
         this.errored=true;
                 })
         },
+        methods: {
+            goTodetail (prodId) {
+            let proId=prodId
+            this.$router.push({name: 'editpoll', params: {Pid: proId}})
+            }
+            }
+            
         
             }
         

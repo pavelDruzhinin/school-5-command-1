@@ -40,11 +40,12 @@ export default new Router({
         },
 
         {
-            path: '/editpoll/',
+            path: '/editpoll/:Pid',
             name: 'editpoll',
             component: EditPoll,
             props: true,
         },
+        
         {
             path: '/cardchat/',
             name: 'cardchat',
