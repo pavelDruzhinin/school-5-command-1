@@ -16,7 +16,6 @@ namespace App.chatbot.API.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        IDatabaseSettings _settings;
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         { }
 
