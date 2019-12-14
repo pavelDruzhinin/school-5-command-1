@@ -23,13 +23,13 @@ namespace App.chatbot.API.Services
             _context = context;
         }
 
-        public async Task Add(ChatBot bot, ClientUser user, IEnumerable<AnswerInputViewModel> model)
+        public async Task Add(ChatBot bot, ClientUser user, AnswerInputViewModel model)
         {
             var answer = new Answer {
                 BotId = bot.Id,
                 ClientId = user.Id,
                 DateAdded = DateTime.Now,
-                Answers = model.Select(x => x.SerializedValue()).ToArray()
+                Answers = model.SerializedValue()
             };
 
             await _context.Answers.AddAsync(answer);

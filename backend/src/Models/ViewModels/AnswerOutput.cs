@@ -1,17 +1,17 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace App.chatbot.API.Models.ViewModels
 {
     public class AnswerOutputViewModel
     {
-        public IEnumerable<object> Answer { get; set; }
+        public dynamic Answer { get; set; }
 
         public AnswerOutputViewModel(Answer answer)
         {
-            Answer = answer.Answers;
+            Answer = JObject.Parse(answer.Answers);
         }
     }
 }

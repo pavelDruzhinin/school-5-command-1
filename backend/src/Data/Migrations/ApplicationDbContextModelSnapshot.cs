@@ -97,8 +97,8 @@ namespace chatbot.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string[]>("Answers")
-                        .HasColumnType("jsonb[]");
+                    b.Property<string>("Answers")
+                        .HasColumnType("jsonb");
 
                     b.Property<string>("BotId");
 

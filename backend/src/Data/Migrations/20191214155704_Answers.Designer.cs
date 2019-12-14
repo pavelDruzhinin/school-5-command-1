@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace chatbot.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191208074844_Answers")]
+    [Migration("20191214155704_Answers")]
     partial class Answers
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -99,8 +99,8 @@ namespace chatbot.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string[]>("Answers")
-                        .HasColumnType("jsonb[]");
+                    b.Property<string>("Answers")
+                        .HasColumnType("jsonb");
 
                     b.Property<string>("BotId");
 

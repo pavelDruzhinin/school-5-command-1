@@ -20,7 +20,7 @@ namespace App.chatbot.API.Controllers
     public partial class ChatBotController : ControllerBase
     {
         [HttpPost("{url:length(8)}/answer")]
-        public async Task<IActionResult> AddAnswer( [FromRoute] string url, [FromBody] IEnumerable<AnswerInputViewModel> answerModel)
+        public async Task<IActionResult> AddAnswer( [FromRoute] string url, [FromBody] AnswerInputViewModel answerModel)
         {
             var user = await GetCurrentUser();
             if(user == null) return Unauthorized();
