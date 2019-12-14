@@ -10,4 +10,4 @@ awk '{gsub(/'"$from_string:[[:digit:]]+"'/,"'"$to_string"'")}1' $file_name > tem
 mv temp.txt $file_name
 rm -rf temp.txt
 
-docker-compose -f $file_name up -d
+docker-compose -f $file_name up -d $from_string
