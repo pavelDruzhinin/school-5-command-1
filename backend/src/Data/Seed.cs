@@ -88,8 +88,8 @@ namespace App.chatbot.API.Data
         public static async Task SeedBots(IServiceProvider services)
         {
             var context = services.GetRequiredService<ApplicationDbContext>();
-            var testcahatbot = await FindChatByNameAndAutorName(services,"test", "chatbot_test1");
-            if (testcahatbot == null)
+            var testchatbot = await FindChatByNameAndAuthorName(services,"test", "chatbot_test1");
+            if (testchatbot == null)
             {
 
                 var listque = new List<Question>();
@@ -97,28 +97,28 @@ namespace App.chatbot.API.Data
                     listque.Add(new Question { Text = "What's your name?" });
                     listque.Add(new Question { Text = "Are you from Petrozavodsk?", Value = "{\"objects\":[{ \"button\":\"Yes\"}, {\"button\":\"No\"}]}" });
 
-                testcahatbot = await SeedBotsForUser(services, "test", "chatbot_test1", listque);
+                testchatbot = await SeedBotsForUser(services, "test", "chatbot_test1", listque);
                                
-                await context.Bots.AddAsync(testcahatbot);
+                await context.Bots.AddAsync(testchatbot);
                 await context.SaveChangesAsync();
             }
 
-           testcahatbot = await FindChatByNameAndAutorName(services, "test", "chatbot_test2");
-            if (testcahatbot == null)
+           testchatbot = await FindChatByNameAndAuthorName(services, "test", "chatbot_test2");
+            if (testchatbot == null)
             {
                 var listque = new List<Question>();
-                    listque.Add(new Question { Text = "Здравствуйте" , Value = "{ \"button\":\"Hello\" }" });
-                    listque.Add(new Question { Text = "Укажите свой возраст", Value = "{\"group\":[{ \"button\":\"менее 18\"}, {\"button\":\"18-30\"},{\"button\":\"31-45\"}, {\"button\":\"более 45\"}]}" });
-                    listque.Add(new Question { Text = "Какое у вас образование", Value = "{\"group\":[{\"button\":\"Начальное\"}, {\"button\":\"Сренднее\"},{\"button\":\"Высшее\"}]}" });
+                    listque.Add(new Question { Text = "РџСЂРёРІРµС‚СЃС‚РІРёРµ" , Value = "{ \"button\":\"Hello\" }" });
+                    listque.Add(new Question { Text = "РљР°РєРѕР№ Р’Р°С€ РІРѕР·СЂР°СЃС‚?", Value = "{\"group\":[{ \"button\":\"РњРµРЅСЊС€Рµ 18\"}, {\"button\":\"18-30\"},{\"button\":\"31-45\"}, {\"button\":\"Р‘РѕР»СЊС€Рµ 45\"}]}" });
+                    listque.Add(new Question { Text = "Р§РµРј Р’С‹ Р·Р°РЅРёРјР°РµС‚РµСЃСЊ?", Value = "{\"group\":[{\"button\":\"Р¤СЂРѕРЅС‚РµРЅРґ\"}, {\"button\":\"Р‘СЌРєРµРЅРґ\"},{\"button\":\"РќРёС‡РµРј\"}]}" });
 
-                testcahatbot = await SeedBotsForUser(services, "test", "chatbot_test2", listque);
+                testchatbot = await SeedBotsForUser(services, "test", "chatbot_test2", listque);
 
-                await context.Bots.AddAsync(testcahatbot);
+                await context.Bots.AddAsync(testchatbot);
                 await context.SaveChangesAsync();
             }
         }
 
-        private static async Task <ChatBot> FindChatByNameAndAutorName(IServiceProvider services, string authorname, string chatname)
+        private static async Task <ChatBot> FindChatByNameAndAuthorName(IServiceProvider services, string authorname, string chatname)
         {
             var context = services.GetRequiredService<ApplicationDbContext>();
             var user =  context.Creators
