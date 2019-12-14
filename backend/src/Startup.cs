@@ -159,8 +159,9 @@ namespace App.chatbot.API
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Chatbot API V1");
             });
 
-            app.UseAuthentication();
             app.UseSerilogRequestLogging();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseRouting();
 
@@ -170,8 +171,8 @@ namespace App.chatbot.API
             });
 
             Seed.SeedRoles(services).Wait();
-            Seed.SeedAdmin(services).Wait();
-            if(env.IsDevelopment()) Seed.SeedTestUser(services).Wait();
+            // Seed.SeedAdmin(services).Wait();
+            // if(env.IsDevelopment()) Seed.SeedTestUser(services).Wait();
         }
     }
 }

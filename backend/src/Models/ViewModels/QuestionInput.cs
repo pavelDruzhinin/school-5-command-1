@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace App.chatbot.API.Models.ViewModels
 {
@@ -11,12 +12,13 @@ namespace App.chatbot.API.Models.ViewModels
         [DisplayFormat(ConvertEmptyStringToNull=false)]
         [MinLength(1)]
         public string Text { get; set; }
-        
-        public JsonDocument Value { get; set; }
+
+                
+        public object Value { get; set; }
 
         public Question ToQuestion()
         {
-            return new Question { Text = Text, Value = Value };
+            return new Question { Text = Text, Value = JsonDocument.Parse(JsonSerializer.Serialize(Value)) };
         }
     }
 }

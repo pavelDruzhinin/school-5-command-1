@@ -29,7 +29,7 @@ namespace App.chatbot.API.Services
                 BotId = bot.Id,
                 ClientId = user.Id,
                 DateAdded = DateTime.Now,
-                Answers = model.Select(x => x.Answer).ToList()
+                Answers = model.Select(x => JsonDocument.Parse(JsonSerializer.Serialize(x.Answer))).ToList()
             };
 
             await _context.Answers.AddAsync(answer);

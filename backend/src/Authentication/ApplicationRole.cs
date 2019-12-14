@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace App.chatbot.API.Authentication
 {
-    public class ApplicationRole : IdentityRole<string>
+    public class ApplicationRole : IdentityRole<long>
     {
         public ApplicationRole() : base()
         { }

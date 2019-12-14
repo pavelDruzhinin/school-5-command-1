@@ -9,7 +9,7 @@ namespace App.chatbot.API.Models.ViewModels
     {
         public string Text { get; set; }
         
-        public JsonDocument Value { get; set; }
+        public object Value { get; set; }
 
         public void Patch(ref Question question)
         {
@@ -20,7 +20,7 @@ namespace App.chatbot.API.Models.ViewModels
 
             if(Value != null)
             {
-                question.Value = Value;
+                question.Value = JsonDocument.Parse(JsonSerializer.Serialize(Value));
             }
         }
     }

@@ -8,6 +8,6 @@ namespace App.chatbot.API.Models.ViewModels
     public class AnswerInputViewModel
     {
         [Required]
-        public JsonDocument Answer { get; set; }
+        public object Answer { get; set; }
     }
 }

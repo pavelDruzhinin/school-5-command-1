@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json;
@@ -12,10 +13,12 @@ namespace App.chatbot.API.Models
     //          либо пустая строка - свободный ответ
     public class Question
     {
-        public string Id { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
 
         [ForeignKey("Bot")]
-        public string BotId { get; set; }
+        public long BotId { get; set; }
         public ChatBot Bot { get; set; } // navigational property
 
         public string Text { get; set; }

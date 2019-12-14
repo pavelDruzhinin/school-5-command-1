@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using App.chatbot.API.Authentication;
 using App.chatbot.API.Data;
 
@@ -24,7 +26,7 @@ namespace App.chatbot.API.Models.ViewModels
                 bot.Questions.Clear();
                 foreach(var q in Questions)
                 {
-                    bot.Questions.Add(new Question { Text = q.Text, Value = q.Value });
+                    bot.Questions.Add(new Question { Text = q.Text, Value = JsonDocument.Parse(JsonSerializer.Serialize(q.Value)) });
                 }
             }
         }

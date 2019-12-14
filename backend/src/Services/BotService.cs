@@ -102,7 +102,7 @@ namespace App.chatbot.API.Services
             var result = _context.Bots.Update(bot);
         }
 
-        public async Task Update(string botId, ChatBot bot)
+        public async Task Update(long botId, ChatBot bot)
         {
             bot.Id = botId;
             await Update(bot);
