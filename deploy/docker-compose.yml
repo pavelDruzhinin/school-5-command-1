@@ -15,7 +15,7 @@ services:
     networks:
       - web
     environment: 
-      - ASPNETCORE_ENVIRONMENT:Development
+      ASPNETCORE_ENVIRONMENT: "production"
 
   chatbot1:
     image: registry.dpvsoft.com/chatbot1:480
