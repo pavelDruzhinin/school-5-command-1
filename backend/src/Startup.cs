@@ -57,15 +57,15 @@ namespace App.chatbot.API
             // services.AddSingleton<IDatabaseSettings, DatabaseSettings>();
             // services.Configure<DatabaseSettings>(options => options = dbSettings);
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-               options.UseNpgsql(Configuration.GetConnectionString("ApplicationDbContext")));
+            // services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseNpgsql(Configuration.GetConnectionString("ApplicationDbContext")));
 
-            // services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options =>
-            //     options
-            //         .UseNpgsql(dbSettings.ConnectionString)
-            //         .EnableDetailedErrors()
-            //         .EnableSensitiveDataLogging()
-            // );
+            services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options =>
+                options
+                    .UseNpgsql(Configuration.GetConnectionString("ApplicationDbContext"))
+                    .EnableDetailedErrors()
+                    .EnableSensitiveDataLogging()
+            );
 
             // Authentication settings
             // Get options from app settings
