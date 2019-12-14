@@ -31,9 +31,16 @@ namespace App.chatbot.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment hostingEnvironment)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(hostingEnvironment.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{hostingEnvironment.EnvironmentName}.json", reloadOnChange: true,
+                    optional: true)
+                .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -45,17 +52,20 @@ namespace App.chatbot.API
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // Database settings
-            var dbSettings = Configuration.GetSection("DatabaseSettings").Get<DatabaseSettings>();
-            Log.Information("Initializing with database settings {@Settings}", dbSettings);
-            services.AddSingleton<IDatabaseSettings, DatabaseSettings>();
-            services.Configure<DatabaseSettings>(options => options = dbSettings);
+            // var dbSettings = Configuration.GetSection("DatabaseSettings").Get<DatabaseSettings>();
+            // Log.Information("Initializing with database settings {@Settings}", dbSettings);
+            // services.AddSingleton<IDatabaseSettings, DatabaseSettings>();
+            // services.Configure<DatabaseSettings>(options => options = dbSettings);
 
-            services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options =>
-                options
-                    .UseNpgsql(dbSettings.ConnectionString)
-                    .EnableDetailedErrors()
-                    .EnableSensitiveDataLogging()
-            );
+            services.AddDbContext<ApplicationDbContext>(options =>
+               options.UseNpgsql(_configuration.GetConnectionString("ApplicationDbContext")));
+
+            // services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options =>
+            //     options
+            //         .UseNpgsql(dbSettings.ConnectionString)
+            //         .EnableDetailedErrors()
+            //         .EnableSensitiveDataLogging()
+            // );
 
             // Authentication settings
             // Get options from app settings
@@ -119,11 +129,12 @@ namespace App.chatbot.API
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
                     Title = "Chatbot API",
-                    Version = "v1" 
+                    Version = "v1"
                 });
-                
+
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
