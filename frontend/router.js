@@ -6,6 +6,7 @@ import Admin from "./src/components/Admin"
 import Test from "./src/components/Test"
 import EditPoll from "./src/components/EditPoll"
 import CardChat from "./src/components/CardChat"
+import CreatePoll from "./src/components/CreatePoll"
 
 Vue.use(Router);
 
@@ -48,6 +49,13 @@ export default new Router({
             name: 'cardchat',
             component: CardChat,
             props: true,
+        },
+        {
+            path:'/create/',
+            name: 'create',
+            component: CreatePoll,
+            props:true,
+
         }
     ]
 })
