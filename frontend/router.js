@@ -7,6 +7,8 @@ import Test from "./src/components/Test"
 import EditPoll from "./src/components/EditPoll"
 import CardChat from "./src/components/CardChat"
 import CreatePoll from "./src/components/CreatePoll"
+import User from "./src/components/User"
+import Adminuser from "./src/components/Adminuser"
 
 Vue.use(Router);
 
@@ -51,11 +53,22 @@ export default new Router({
             props: true,
         },
         {
+            path: '/User/:Pid',
+            name: 'user',
+            component: User,
+            props: true,
+        },
+        {
+            path: '/Adminuser/',
+            name: 'adminuser',
+            component: Adminuser,
+            props: true,
+        },
+        {
             path:'/create/',
-            name: 'create',
-            component: CreatePoll,
+            name:'create',
+            component:CreatePoll,
             props:true,
-
         }
     ]
 })

@@ -1,0 +1,35 @@
+version: '3.3'
+
+services:
+
+  chatbotapi1:
+    image: registry.dpvsoft.com/chatbotapi1:480
+    container_name: chatbotapi1
+    restart: always
+    labels:
+      - "traefik.docker.network=web"
+      - "traefik.enabled=true"
+      - "traefik.backend=chatbotapi1"
+      - "traefik.frontend.rule=Host:chatbotapi1.dpvsoft.com"
+      - "traefik.port=80"
+    networks:
+      - web
+    environment: 
+      ASPNETCORE_ENVIRONMENT: "production"
+
+  chatbot1:
+    image: registry.dpvsoft.com/chatbot1:480
+    container_name: chatbot1
+    restart: always
+    labels:
+      - "traefik.docker.network=web"
+      - "traefik.enabled=true"
+      - "traefik.backend=chatbot1"
+      - "traefik.frontend.rule=Host:chatbot1.dpvsoft.com"
+      - "traefik.port=80"
+    networks:
+      - web
+   
+networks:
+  web:
+    external: true

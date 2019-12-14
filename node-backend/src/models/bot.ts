@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, ManyToOne, OneToOne } from 'typeorm';
 import { User } from './user';
 import { Question } from './question';
 
@@ -18,4 +18,11 @@ export class Bot {
 
   @Column ()
   answer: string;
+
+    @Column()
+    creatorId: number;
+
+    @ManyToOne(() => User, user => user.bots)
+    creator: Promise<User>;
+
 }

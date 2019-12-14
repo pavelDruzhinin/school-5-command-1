@@ -3,7 +3,7 @@ import express from 'express';
 import { ExpressOIDC } from '@okta/oidc-middleware';
 import OktaJwtVerifier from '@okta/jwt-verifier';
 import { JsonErrorResponse } from 'express-with-json';
-// import { assertUser } from './user'; // we're going to need this import later
+ import { assertUser } from './user'; // we're going to need this import later
 
 const issuer = `${process.env.OKTA_ORG_URL}/oauth2/default`;
 
@@ -47,7 +47,7 @@ export async function authenticateUser(req: express.Request) {
     }
 
     const { claims: { sub } } = await oktaJwtVerifier.verifyAccessToken(token, 'api://default');
-    // req.user = await assertUser(sub); // we're going to use this line as soon as we define User model
+     req.user = await assertUser(sub); // we're going to use this line as soon as we define User model
 }
 
 export async function requireUser(req: express.Request) {
