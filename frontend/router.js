@@ -6,7 +6,7 @@ import Admin from "./src/components/Admin"
 import Test from "./src/components/Test"
 import EditPoll from "./src/components/EditPoll"
 import CardChat from "./src/components/CardChat"
-import CreatePoll from "./src/components/CreatePoll"
+import CreateBot from "./src/components/CreatBot"
 import User from "./src/components/User"
 import Adminuser from "./src/components/Adminuser"
 
@@ -67,7 +67,7 @@ export default new Router({
         {
             path:'/create/',
             name:'create',
-            component:CreatePoll,
+            component:CreateBot,
             props:true,
         }
     ]
