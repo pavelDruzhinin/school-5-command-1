@@ -27,14 +27,14 @@
                 Dashboard
             </v-btn>
             </router-link>
-            <router-link to="/editpoll" style="text-decoration: none; color: white">
+            <router-link to="/create" style="text-decoration: none; color: white">
                 <v-btn
                         color="white"
                         text
                         rounded
                         class="my-2"
                 >
-                    Edit
+                    Create Bot
                 </v-btn>
             </router-link>
             <v-col

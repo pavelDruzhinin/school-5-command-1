@@ -6,6 +6,7 @@ import Admin from "./src/components/Admin"
 import Test from "./src/components/Test"
 import EditPoll from "./src/components/EditPoll"
 import CardChat from "./src/components/CardChat"
+import CreateBot from "./src/components/CreatBot"
 import User from "./src/components/User"
 import Adminuser from "./src/components/Adminuser"
 
@@ -63,6 +64,12 @@ export default new Router({
             name: 'adminuser',
             component: Adminuser,
             props: true,
+        },
+        {
+            path:'/create/',
+            name:'create',
+            component:CreateBot,
+            props:true,
         }
     ]
 })
