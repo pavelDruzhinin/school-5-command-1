@@ -122,6 +122,7 @@
     data() {
 
       return {
+        proId:this.$route.params.Pid,
         direction: 'bottom',
         fab: false,
         globalid: null,
@@ -148,7 +149,7 @@
     created() {
       axios.get(`https://my-json-server.typicode.com/AlexanderPanshin/dpv.school/bots`)
         .then(response => {
-          this.bots = response.data[0];
+          this.bots = response.data[this.proId-1];
           this.title = this.bots.title,
           this.description = this.bots.description,
           this.company = this.bots.company,

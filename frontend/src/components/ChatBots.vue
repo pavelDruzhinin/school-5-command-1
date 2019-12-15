@@ -44,12 +44,16 @@
                             </v-card-text>
 
                             <v-card-actions>
+                                <router-link to="/cardchat/">
                                 <v-btn
                                         color="cyan lighten-1"
                                         text
+                                        @click="goTodetail(post.id)"
+                                        
                                 >
                                     begin
                                 </v-btn>
+                                </router-link>
                             </v-card-actions>
                             
                         </v-card>
@@ -157,6 +161,13 @@
         this.errored=true;
                 })
         },
+
+        methods: {
+             goTodetail (prodId) {
+      let proId=prodId
+      this.$router.push({name: 'cardchat', params: {Pid: proId}})
+    }
+        }
         
             }
         
