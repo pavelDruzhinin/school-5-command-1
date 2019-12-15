@@ -48,7 +48,7 @@
                     <v-btn class="ma-3" 
                                 color="cyan lighten-1"
                                 text
-                        @click="goTodetail(props.item.id)">
+                        >
                             send
                         </v-btn>
                 </v-card>

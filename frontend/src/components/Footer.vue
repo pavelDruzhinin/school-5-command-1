@@ -37,6 +37,16 @@
                     Create Bot
                 </v-btn>
             </router-link>
+             <router-link to="/user/2" style="text-decoration: none; color: white">
+                <v-btn
+                        color="white"
+                        text
+                        rounded
+                        class="my-2"
+                >
+                   User
+                </v-btn>
+            </router-link>
             <v-col
                     class="py-4 text-center white--text"
                     cols="12"

@@ -84,7 +84,7 @@
                         <v-spacer></v-spacer>
                         <v-btn
                                 color="indigo"
-                                @click="reset()"
+                                @click="reset();dialog=!dialog"
                                >
                             Close
                         </v-btn>
