@@ -92,7 +92,7 @@
                 })
       axios.get(`https://my-json-server.typicode.com/AlexanderPanshin/dpv.school/bots`)
       .then(response=> {
-        this.posts= response.data[this.proId];
+        this.posts= response.data[this.proId-1];
       })
       .catch(error=> {
         window.console.log(error);

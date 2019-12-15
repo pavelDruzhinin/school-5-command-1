@@ -46,6 +46,7 @@ export default new Router({
             component: EditPoll,
             props: true,
         },
+        
         {
             path: '/cardchat/:Pid',
             name: 'cardchat',

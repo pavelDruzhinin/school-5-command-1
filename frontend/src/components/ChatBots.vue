@@ -161,13 +161,13 @@
         this.errored=true;
                 })
         },
-
         methods: {
-             goTodetail (prodId) {
-      let proId=prodId
-      this.$router.push({name: 'cardchat', params: {Pid: proId}})
-    }
-        }
+            goTodetail (prodId) {
+            let proId=prodId
+            this.$router.push({name: 'cardchat', params: {Pid: proId}})
+            }
+            }
+            
         
             }
         
