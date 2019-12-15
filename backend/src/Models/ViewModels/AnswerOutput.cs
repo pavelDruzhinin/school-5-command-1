@@ -11,7 +11,7 @@ namespace App.chatbot.API.Models.ViewModels
 
         public AnswerOutputViewModel(Answer answer)
         {
-            Answer = JObject.Parse(answer.Answers);
+            Answer = JArray.Parse(answer.Answers);
         }
     }
 }

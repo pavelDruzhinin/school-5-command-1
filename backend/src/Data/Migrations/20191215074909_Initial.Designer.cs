@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace chatbot.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191214155704_Answers")]
-    partial class Answers
+    [Migration("20191215074909_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -154,6 +154,24 @@ namespace chatbot.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Clients",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    IdentityId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clients", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Clients_AspNetUsers_IdentityId",
+                        column: x => x.IdentityId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Creators",
                 columns: table => new
                 {
@@ -197,7 +215,8 @@ namespace chatbot.Data.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     BotId = table.Column<string>(nullable: true),
-                    Answers = table.Column<string[]>(type: "jsonb[]", nullable: true),
+                    ClientId = table.Column<string>(nullable: true),
+                    Answers = table.Column<string>(type: "jsonb", nullable: true),
                     DateAdded = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -207,6 +226,12 @@ namespace chatbot.Data.Migrations
                         name: "FK_Answers_Bots_BotId",
                         column: x => x.BotId,
                         principalTable: "Bots",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Answers_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -235,6 +260,11 @@ namespace chatbot.Data.Migrations
                 name: "IX_Answers_BotId",
                 table: "Answers",
                 column: "BotId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Answers_ClientId",
+                table: "Answers",
+                column: "ClientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -279,6 +309,11 @@ namespace chatbot.Data.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Clients_IdentityId",
+                table: "Clients",
+                column: "IdentityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Creators_IdentityId",
                 table: "Creators",
                 column: "IdentityId");
@@ -311,6 +346,9 @@ namespace chatbot.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Questions");
+
+            migrationBuilder.DropTable(
+                name: "Clients");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
