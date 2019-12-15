@@ -44,10 +44,6 @@ export default {
   })
 };
 </script>
-<<<<<<< HEAD
-
-=======
->>>>>>> 749b02e212da51c5590bff451f4fe8a99b1ab932
 <style>
 .moveInUp-enter-active{
 animation: fadeIn 2s ease-in;
@@ -74,8 +70,4 @@ transform: translateY(0);
 transform: translateY(-400px);
 }
 }
-<<<<<<< HEAD
 </style>
-=======
-</style>
->>>>>>> 749b02e212da51c5590bff451f4fe8a99b1ab932
